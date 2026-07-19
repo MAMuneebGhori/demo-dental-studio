@@ -1,8 +1,11 @@
 import { HeroSection } from "@/components/HeroSection";
 import { AboutSection } from "@/components/AboutSection";
+import { PortfolioSection } from "@/components/PortfolioSection";
 import { ServicesSection } from "@/components/ServicesSection";
+import { TeamSection } from "@/components/TeamSection";
 import { PricingSection } from "@/components/PricingSection";
-import { SmileSlider } from "@/components/SmileSlider";
+import { LocationSection } from "@/components/LocationSection";
+import { Footer } from "@/components/Footer";
 import { AntiGravityChatWidget } from "@/components/AntiGravityChatWidget";
 
 export default function Home() {
@@ -10,9 +13,12 @@ export default function Home() {
     <main className="w-full">
       <HeroSection />
       <AboutSection />
+      <PortfolioSection />
       <ServicesSection />
-      <SmileSlider />
+      <TeamSection />
       <PricingSection />
+      <LocationSection />
+      <Footer />
       <AntiGravityChatWidget />
     </main>
   );

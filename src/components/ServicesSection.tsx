@@ -19,28 +19,27 @@ export function ServicesSection() {
     { id: "07", name: "Therapy" },
     { id: "08", name: "Endodontics" },
     { id: "09", name: "Surgery" },
-    { id: "10", name: "Aligners" },
   ];
 
   return (
     <>
       <section id="services">
         {/* Top Layout */}
-        <div className="bg-sage-light py-24">
-          <div className="max-w-7xl mx-auto px-6">
-            <h2 className="text-4xl md:text-5xl font-bold text-forest-dark mb-16">Services</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+        <div className="bg-[#E5EDDE] py-32">
+          <div className="max-w-[1400px] mx-auto px-8">
+            <h2 className="text-5xl md:text-7xl font-light tracking-tight text-[#0D241C] mb-16">Services</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
               {topServices.map(service => (
                 <div 
                   key={service.id} 
-                  className="relative h-[400px] rounded-2xl overflow-hidden group cursor-pointer"
+                  className="relative h-[500px] rounded-3xl overflow-hidden group cursor-pointer"
                   onClick={() => setSelectedService(service)}
                 >
-                  <img src={service.img} alt={service.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                  <div className="absolute inset-0 bg-forest-dark/60 group-hover:bg-forest-dark/40 transition-colors" />
-                  <div className="absolute inset-0 p-6 flex flex-col justify-between text-white">
-                    <span className="text-sm font-mono opacity-80">{service.id}</span>
-                    <h3 className="text-xl font-bold">{service.name}</h3>
+                  <img src={service.img} alt={service.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 filter grayscale hover:grayscale-0" />
+                  <div className="absolute inset-0 bg-[#0D241C]/30 transition-colors" />
+                  <div className="absolute inset-0 p-8 flex flex-col justify-between text-[#E5EDDE]">
+                    <span className="text-sm font-light tracking-widest opacity-80">{service.id}</span>
+                    <h3 className="text-3xl font-light tracking-tight leading-tight">{service.name}</h3>
                   </div>
                 </div>
               ))}
@@ -49,22 +48,22 @@ export function ServicesSection() {
         </div>
 
         {/* Bottom Layout */}
-        <div className="bg-forest-dark text-sage-light py-24">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              <div className="lg:col-start-2 border-t border-sage-light/20">
+        <div className="bg-[#0D241C] text-[#E5EDDE] py-32">
+          <div className="max-w-[1400px] mx-auto px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+              <div className="lg:col-start-2 border-t border-white/10">
                 {bottomServices.map(service => (
                   <div 
                     key={service.id} 
-                    className="flex justify-between items-center py-6 border-b border-sage-light/20 cursor-pointer group hover:text-sage-button transition-colors"
+                    className="flex justify-between items-center py-8 border-b border-white/10 cursor-pointer group hover:opacity-70 transition-opacity"
                     onClick={() => setSelectedService(service)}
                   >
-                    <div className="flex gap-6 items-center">
-                      <span className="font-mono text-sage-light/50">{service.id}</span>
-                      <span className="text-2xl font-medium">{service.name}</span>
+                    <div className="flex gap-8 items-center">
+                      <span className="font-light tracking-widest text-[#E5EDDE]/50">{service.id}</span>
+                      <span className="text-3xl font-light tracking-tight">{service.name}</span>
                     </div>
-                    <div className="w-10 h-10 rounded-full border border-sage-light/30 flex items-center justify-center group-hover:bg-sage-button group-hover:border-sage-button group-hover:text-forest-dark transition-all transform group-hover:scale-110">
-                      <ArrowUpRight size={20} />
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center bg-[#E5EDDE] text-[#0D241C]">
+                      <ArrowUpRight size={24} strokeWidth={1} />
                     </div>
                   </div>
                 ))}
@@ -77,36 +76,36 @@ export function ServicesSection() {
       {/* Service Modal */}
       <Modal isOpen={!!selectedService} onClose={() => setSelectedService(null)}>
         {selectedService && (
-          <div className="w-full h-full flex flex-col md:flex-row p-8 md:p-12 gap-8 text-sage-light">
-            <div className="flex-1 flex flex-col justify-center">
-              <span className="text-sage-button font-mono text-xl mb-4">{selectedService.id}</span>
-              <h2 className="text-4xl md:text-5xl font-bold mb-8">{selectedService.name}</h2>
-              <ul className="space-y-4 mb-12 text-lg text-sage-light/80">
-                <li className="flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-sage-button"></div> Advanced digital planning
+          <div className="w-full min-h-screen flex flex-col md:flex-row text-[#E5EDDE]">
+            <div className="flex-1 flex flex-col justify-center p-8 md:p-24">
+              <span className="font-light tracking-widest text-xl mb-6 opacity-60">{selectedService.id}</span>
+              <h2 className="text-5xl md:text-8xl font-light tracking-tight mb-12">{selectedService.name}</h2>
+              <ul className="space-y-6 mb-16 text-2xl font-light text-white/80 border-t border-white/10 pt-12">
+                <li className="flex items-center gap-6">
+                  <div className="w-2 h-2 rounded-full bg-[#E5EDDE]"></div> Advanced digital planning
                 </li>
-                <li className="flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-sage-button"></div> Painless execution
+                <li className="flex items-center gap-6">
+                  <div className="w-2 h-2 rounded-full bg-[#E5EDDE]"></div> Painless execution
                 </li>
-                <li className="flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-sage-button"></div> Long-term warranty
+                <li className="flex items-center gap-6">
+                  <div className="w-2 h-2 rounded-full bg-[#E5EDDE]"></div> Long-term warranty
                 </li>
               </ul>
-              <div className="flex gap-4">
-                <button className="bg-sage-button text-forest-dark px-6 py-3 rounded-full font-bold hover:bg-sage-light transition-colors">
+              <div className="flex gap-6">
+                <button className="rounded-full px-8 py-3 bg-[#E5EDDE] text-[#0D241C] hover:bg-white transition-colors font-light tracking-tight">
                   Make an appointment
                 </button>
-                <button className="border border-sage-button text-sage-button px-6 py-3 rounded-full font-bold hover:bg-sage-button hover:text-forest-dark transition-colors">
+                <button className="rounded-full px-8 py-3 border border-[#E5EDDE]/20 text-[#E5EDDE] hover:bg-white/10 transition-colors font-light tracking-tight">
                   Learn more
                 </button>
               </div>
             </div>
-            <div className="flex-1 rounded-2xl overflow-hidden hidden md:block">
+            <div className="flex-1 hidden md:block">
               {selectedService.img ? (
-                <img src={selectedService.img} alt={selectedService.name} className="w-full h-full object-cover" />
+                <img src={selectedService.img} alt={selectedService.name} className="w-full h-full object-cover filter grayscale" />
               ) : (
-                <div className="w-full h-full bg-sage-light/10 flex items-center justify-center">
-                  <span className="text-sage-light/30 text-lg">No image available</span>
+                <div className="w-full h-full bg-[#0D241C] flex items-center justify-center">
+                  <span className="text-[#E5EDDE]/30 text-2xl font-light">No image available</span>
                 </div>
               )}
             </div>

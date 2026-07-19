@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function PricingSection() {
@@ -14,71 +13,59 @@ export function PricingSection() {
   ];
 
   const content: Record<string, any> = {
-    "Complex diagnostics": {
-      title: "The Perfect Smile",
-      price: "280€",
-      features: [
-        "Complex examination",
-        "Intraoral scanning (3Shape/iTero)",
-        "3D CT",
-        "Digital smile design (DSD)",
-        "Personal treatment plan"
-      ]
-    },
-    "Dental and oral hygiene": {
-      title: "Professional Cleansing",
-      price: "95€",
-      features: [
-        "Ultrasonic scaling",
-        "Air-Flow polishing",
-        "Fluoride application",
-        "Oral hygiene instructions"
-      ]
-    },
-    "Dental makeover and therapy": {
-      title: "Restorative Care",
-      price: "from 150€",
-      features: [
-        "Caries treatment",
-        "Aesthetic filling",
-        "Root canal therapy",
-        "Microscope assisted precision"
-      ]
-    },
-    "Aesthetics and correction": {
-      title: "Ceramic Veneers",
-      price: "from 600€",
-      features: [
-        "E-max ceramic",
-        "Minimal preparation",
-        "Digital smile preview",
-        "Long-lasting results"
-      ]
-    }
+    "Complex diagnostics": [
+      { name: "First consultation + panoramic X-ray", price: "from 55€" },
+      { name: "Digital smile design (DSD)", price: "120€" },
+      { name: "The Perfect Smile package (3D CT, DSD, Plan)", price: "280€" }
+    ],
+    "Dental and oral hygiene": [
+      { name: "Professional dental hygiene (AirFlow)", price: "95€" },
+      { name: "Periodontal treatment (per tooth)", price: "from 45€" },
+      { name: "Teeth whitening (Philips Zoom!)", price: "350€" }
+    ],
+    "Dental makeover and therapy": [
+      { name: "Aesthetic filling (1 surface)", price: "from 90€" },
+      { name: "Aesthetic filling (2+ surfaces)", price: "from 150€" },
+      { name: "Microscope root canal therapy (1 canal)", price: "200€" },
+      { name: "Tooth extraction (simple)", price: "from 80€" }
+    ],
+    "Aesthetics and correction": [
+      { name: "E-max ceramic veneer", price: "from 600€" },
+      { name: "Zirconia crown", price: "from 500€" },
+      { name: "Premium implant placement (surgery)", price: "from 800€" },
+      { name: "Implant crown", price: "from 650€" }
+    ]
   };
 
   return (
-    <section id="price" className="py-24 bg-sage-light text-forest-dark">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Price list - invest in your smile</h2>
-        </div>
+    <section id="price" className="py-32 bg-[#E5EDDE] text-[#0D241C]">
+      <div className="max-w-[1400px] mx-auto px-8">
+        <h2 className="text-5xl md:text-7xl font-light tracking-tight mb-16 leading-tight">Price list - invest in your smile</h2>
         
         {/* Tabs */}
-        <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-12">
+        <div className="flex flex-wrap gap-8 border-b border-[#0D241C]/10 mb-16 pb-4">
           {tabs.map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-6 py-3 rounded-full text-sm font-bold transition-all ${activeTab === tab ? "bg-forest-dark text-sage-light shadow-lg scale-105" : "bg-white text-forest-dark border border-sage-button/20 hover:bg-sage-button/10"}`}
+              className={`text-2xl font-light tracking-tight pb-2 transition-all relative hover:opacity-70 ${activeTab === tab ? "opacity-100" : "opacity-40"}`}
             >
               {tab}
+              {activeTab === tab && (
+                <motion.div
+                  layoutId="priceTab"
+                  className="absolute -bottom-4 left-0 right-0 h-0.5 bg-[#0D241C]"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                />
+              )}
             </button>
           ))}
         </div>
         
         {/* Tab Content */}
-        <div className="max-w-3xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden border border-sage-button/20 min-h-[400px]">
+        <div className="max-w-4xl min-h-[400px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -86,37 +73,20 @@ export function PricingSection() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3 }}
-              className="p-8 md:p-12 h-full flex flex-col justify-between"
+              className="flex flex-col"
             >
-              <div>
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-                  <div>
-                    <h3 className="text-3xl font-bold">{activeTab}</h3>
-                    <p className="text-sage-button font-medium mt-1">{content[activeTab].title}</p>
-                  </div>
-                  <div className="text-4xl md:text-5xl font-black text-sage-button">{content[activeTab].price}</div>
+              {content[activeTab].map((item: any, i: number) => (
+                <div key={i} className="flex justify-between items-center py-8 border-b border-[#0D241C]/10 group hover:bg-white/30 transition-colors -mx-4 px-4">
+                  <span className="text-2xl font-light tracking-tight">{item.name}</span>
+                  <span className="text-2xl font-light tracking-tight">{item.price}</span>
                 </div>
-                
-                <div className="w-full h-px bg-sage-button/20 mb-8"></div>
-                
-                <div className="mb-10">
-                  <h4 className="text-lg font-semibold mb-6">What's included in the package:</h4>
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {content[activeTab].features.map((item: string, i: number) => (
-                      <li key={i} className="flex items-start gap-3">
-                        <div className="mt-1 bg-sage-button/20 p-1 rounded-full text-sage-button">
-                          <Check size={16} strokeWidth={3} />
-                        </div>
-                        <span className="font-medium text-forest-dark/80">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+              ))}
               
-              <button className="w-full bg-forest-dark text-sage-light py-4 rounded-xl text-lg font-bold hover:bg-forest-dark/90 transition-all shadow-md hover:shadow-lg mt-8">
-                Make an appointment
-              </button>
+              <div className="mt-16">
+                <button className="rounded-full px-8 py-3 bg-[#0D241C] text-white font-light tracking-tight hover:bg-black transition-colors">
+                  Make an appointment
+                </button>
+              </div>
             </motion.div>
           </AnimatePresence>
         </div>

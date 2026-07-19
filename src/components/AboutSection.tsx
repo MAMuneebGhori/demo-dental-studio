@@ -21,40 +21,40 @@ export function AboutSection() {
   ];
 
   return (
-    <section id="about" ref={targetRef} className="relative h-[300vh] bg-sage-light text-forest-dark">
+    <section id="about" ref={targetRef} className="relative h-[300vh] bg-[#E5EDDE] text-[#0D241C]">
       <div className="sticky top-0 h-screen flex items-center overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 w-full grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="max-w-[1400px] mx-auto px-8 w-full grid grid-cols-1 md:grid-cols-2 gap-16">
           
           {/* Left Column - Sticky Text */}
           <div className="flex flex-col justify-center h-full">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-forest-dark mb-6 leading-tight">
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-light tracking-tight text-[#0D241C] mb-8 leading-tight">
               Clinical Experience <br/>Pillars
             </h2>
-            <p className="text-lg md:text-xl text-forest-dark/80 max-w-md">
+            <p className="text-xl md:text-2xl font-light tracking-tight text-[#0D241C]/60 max-w-lg">
               We shift your psychological state from clinical anxiety to premium spa hospitality. Our mechanics ensure smooth sailing through every procedure.
             </p>
           </div>
 
           {/* Right Column - Sliding Cards */}
-          <div className="relative h-[80vh] overflow-hidden rounded-2xl hidden md:block">
-            <motion.div style={{ y: yRight }} className="absolute top-0 w-full flex flex-col gap-6 pt-[40vh] pb-[40vh]">
+          <div className="relative h-[80vh] overflow-hidden hidden md:block">
+            <motion.div style={{ y: yRight }} className="absolute top-0 w-full flex flex-col gap-12 pt-[40vh] pb-[40vh]">
               {pillars.map(pillar => (
-                <div key={pillar.id} className="bg-white p-10 rounded-2xl shadow-xl border border-sage-button/20 flex flex-col justify-center min-h-64 transform transition-all hover:scale-[1.02]">
-                  <div className="text-sage-button/40 text-5xl font-black mb-4">0{pillar.id}</div>
-                  <h3 className="text-2xl font-bold text-forest-dark mb-3">{pillar.title}</h3>
-                  <p className="text-forest-dark/70 text-lg leading-relaxed">{pillar.desc}</p>
+                <div key={pillar.id} className="bg-transparent border-b border-[#0D241C]/10 flex flex-col justify-center min-h-64 pb-12">
+                  <div className="text-[#0D241C]/20 text-6xl font-light mb-6 tracking-tight">0{pillar.id}</div>
+                  <h3 className="text-3xl font-light tracking-tight text-[#0D241C] mb-4">{pillar.title}</h3>
+                  <p className="text-[#0D241C]/60 text-xl font-light tracking-tight leading-relaxed">{pillar.desc}</p>
                 </div>
               ))}
             </motion.div>
           </div>
           
           {/* Mobile Fallback */}
-          <div className="md:hidden flex flex-col gap-6 pb-24 h-[80vh] overflow-y-auto pt-12 no-scrollbar">
+          <div className="md:hidden flex flex-col gap-12 pb-32 h-[80vh] overflow-y-auto pt-16 no-scrollbar">
             {pillars.map(pillar => (
-                <div key={pillar.id} className="bg-white p-8 rounded-2xl shadow-lg border border-sage-button/20 flex flex-col justify-center">
-                  <div className="text-sage-button/40 text-4xl font-black mb-2">0{pillar.id}</div>
-                  <h3 className="text-xl font-bold text-forest-dark mb-2">{pillar.title}</h3>
-                  <p className="text-forest-dark/70">{pillar.desc}</p>
+                <div key={pillar.id} className="bg-transparent border-b border-[#0D241C]/10 flex flex-col justify-center pb-12">
+                  <div className="text-[#0D241C]/20 text-5xl font-light mb-4 tracking-tight">0{pillar.id}</div>
+                  <h3 className="text-2xl font-light tracking-tight text-[#0D241C] mb-4">{pillar.title}</h3>
+                  <p className="text-[#0D241C]/60 font-light text-lg">{pillar.desc}</p>
                 </div>
               ))}
           </div>

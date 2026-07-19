@@ -17,21 +17,21 @@ export function Modal({ isOpen, onClose, children }: ModalProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-forest-dark/95 backdrop-blur-sm p-4 md:p-8"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#0D241C] h-screen w-screen overflow-hidden"
         >
           <button 
             onClick={onClose}
-            className="absolute top-6 right-6 w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-sage-light hover:bg-white/20 transition-colors z-[110]"
+            className="absolute top-8 right-8 w-12 h-12 rounded-full flex items-center justify-center bg-[#E5EDDE] text-[#0D241C] hover:scale-105 transition-transform z-50"
           >
-            <X size={24} />
+            <X size={24} strokeWidth={1} />
           </button>
           
           <motion.div 
-            initial={{ scale: 0.95, y: 20, opacity: 0 }}
-            animate={{ scale: 1, y: 0, opacity: 1 }}
-            exit={{ scale: 0.95, y: 20, opacity: 0 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="w-full max-w-5xl h-[80vh] md:h-auto max-h-[90vh] bg-forest-dark border border-sage-button/20 rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row relative"
+            initial={{ y: 40, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 40, opacity: 0 }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className="w-full h-full flex flex-col relative overflow-y-auto"
           >
             {children}
           </motion.div>

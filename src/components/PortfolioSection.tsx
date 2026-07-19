@@ -9,30 +9,31 @@ export function PortfolioSection() {
   ];
 
   return (
-    <section id="portfolio" className="py-24 bg-sage-light text-forest-dark">
-      <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-16 max-w-2xl leading-tight">
+    <section id="portfolio" className="py-32 bg-[#E5EDDE] text-[#0D241C]">
+      <div className="w-full px-4 md:px-8 mb-16">
+        <h2 className="text-5xl md:text-7xl font-light tracking-tight mb-8 max-w-[1400px] mx-auto leading-tight">
           Our patients' smiles speak for themselves.
         </h2>
+      </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[300px]">
-          {images.map((img, i) => (
-            <div 
-              key={img.id} 
-              className={`relative rounded-3xl overflow-hidden shadow-lg group ${i === 0 ? "md:col-span-2 md:row-span-2" : ""}`}
-            >
-              <img 
-                src={img.src} 
-                alt={img.label}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-forest-dark/10 group-hover:bg-transparent transition-colors" />
-              <div className="absolute bottom-6 left-6 bg-white/30 backdrop-blur-md border border-white/40 text-forest-dark text-xs font-bold px-4 py-2 rounded-full uppercase tracking-wider">
-                {img.label}
-              </div>
+      {/* Edge-to-edge masonry grid */}
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0">
+        {images.map((img, i) => (
+          <div 
+            key={img.id} 
+            className={`relative overflow-hidden group ${i === 0 ? "md:col-span-2 md:row-span-2 aspect-video md:aspect-auto h-[40vh] md:h-[80vh]" : "aspect-square md:aspect-auto md:h-[40vh]"}`}
+          >
+            <img 
+              src={img.src} 
+              alt={img.label}
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 filter grayscale hover:grayscale-0"
+            />
+            <div className="absolute inset-0 bg-[#0D241C]/20 transition-colors duration-700" />
+            <div className="absolute bottom-6 left-6 bg-[#E5EDDE] px-3 py-1 text-xs font-light tracking-tight text-[#0D241C] uppercase shadow-lg border border-white/40 backdrop-blur-md">
+              {img.label}
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </section>
   );

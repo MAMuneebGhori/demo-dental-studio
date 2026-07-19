@@ -3,48 +3,54 @@ import { MapPin, Navigation } from "lucide-react";
 
 export function LocationSection() {
   return (
-    <section id="contacts" className="py-24 bg-sage-light text-forest-dark border-t border-sage-button/20">
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    <section id="contacts" className="py-32 bg-[#E5EDDE] text-[#0D241C] border-t border-[#0D241C]/10">
+      <div className="max-w-[1400px] mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         <div>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">We are right here.</h2>
-          <p className="text-lg md:text-xl text-forest-dark/80 mb-8 max-w-md">
+          <h2 className="text-5xl md:text-7xl font-light tracking-tight mb-8">We are right here.</h2>
+          <p className="text-xl font-light tracking-tight text-[#0D241C]/80 mb-12 max-w-md">
             Conveniently located to make your appointment even easier. With easy access for people with mobility impairments.
           </p>
-          <div className="space-y-6">
-            <div className="flex gap-4 items-start">
-              <MapPin className="text-sage-button mt-1" />
+          <div className="space-y-12">
+            <div className="flex gap-6 items-start">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center border border-[#0D241C]/20 shrink-0">
+                <MapPin size={20} strokeWidth={1} />
+              </div>
               <div>
-                <h4 className="font-bold text-lg">LAVA Dental Clinic</h4>
-                <p className="text-forest-dark/70">Brivibas iela 100, Riga, LV-1011<br/>Latvia</p>
+                <h4 className="font-light tracking-tight text-2xl mb-2">LAVA Dental Clinic</h4>
+                <p className="text-[#0D241C]/60 font-light tracking-tight text-lg">Brivibas iela 100, Riga, LV-1011<br/>Latvia</p>
               </div>
             </div>
-            <div className="flex gap-4 items-start">
-              <Navigation className="text-sage-button mt-1" />
+            <div className="flex gap-6 items-start">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center border border-[#0D241C]/20 shrink-0">
+                <Navigation size={20} strokeWidth={1} />
+              </div>
               <div>
-                <h4 className="font-bold text-lg">Parking</h4>
-                <p className="text-forest-dark/70">Free parking available directly behind the clinic (Zone P).</p>
+                <h4 className="font-light tracking-tight text-2xl mb-2">Parking</h4>
+                <p className="text-[#0D241C]/60 font-light tracking-tight text-lg">Free parking available directly behind the clinic (Zone P).</p>
               </div>
             </div>
           </div>
-          <button className="mt-10 bg-forest-dark text-sage-light px-8 py-4 rounded-full font-bold hover:bg-forest-dark/90 transition-colors shadow-lg">
+          <button className="mt-16 rounded-full px-8 py-3 bg-[#0D241C] text-white font-light tracking-tight hover:bg-black transition-colors">
             Get Directions
           </button>
         </div>
         
-        <div className="relative aspect-square md:aspect-video lg:aspect-square bg-forest-dark rounded-3xl overflow-hidden shadow-2xl">
+        <div className="relative aspect-square lg:aspect-[4/3] bg-[#0D241C] overflow-hidden">
           <img 
             src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1000&q=80" 
             alt="Map location" 
-            className="absolute inset-0 w-full h-full object-cover filter grayscale contrast-125 opacity-70"
+            className="absolute inset-0 w-full h-full object-cover filter grayscale contrast-125 opacity-40 mix-blend-screen"
           />
           {/* Custom Pins */}
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
-            <div className="w-12 h-12 bg-sage-button text-forest-dark rounded-full flex items-center justify-center font-bold text-sm shadow-xl shadow-sage-button/50 border-4 border-forest-dark z-10 relative">
+            <div className="w-16 h-16 bg-[#E5EDDE] text-[#0D241C] rounded-full flex items-center justify-center font-light tracking-tighter text-lg shadow-2xl z-10 relative">
               LAVA
             </div>
-            <div className="w-4 h-4 bg-sage-button rotate-45 -mt-2"></div>
           </div>
-          <div className="absolute top-[40%] left-[60%] w-8 h-8 bg-forest-dark/80 backdrop-blur text-white border border-white/20 flex items-center justify-center font-bold rounded">
+          <div className="absolute top-[40%] left-[65%] w-8 h-8 bg-white text-[#0D241C] flex items-center justify-center font-light text-sm shadow-xl">
+            P
+          </div>
+          <div className="absolute top-[60%] left-[30%] w-8 h-8 bg-white text-[#0D241C] flex items-center justify-center font-light text-sm shadow-xl">
             P
           </div>
         </div>

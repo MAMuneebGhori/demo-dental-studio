@@ -40,20 +40,20 @@ export function Navigation() {
   ];
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? "bg-alabaster/90 backdrop-blur-md shadow-sm py-4" : "bg-transparent py-6"}`}>
+    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? "bg-sage-light/90 backdrop-blur-md shadow-sm py-4" : "bg-transparent py-6"}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         {/* Logo */}
-        <Link href="/" className="text-2xl font-bold text-terracotta tracking-tighter">LAVA.</Link>
+        <Link href="/" className="text-2xl font-bold text-forest-dark tracking-tighter">LAVA.</Link>
         
         {/* Desktop Links */}
         <div className="hidden lg:flex gap-6 xl:gap-8 items-center">
           {links.map((link) => (
-            <Link key={link.name} href={link.href} className="relative text-sm font-medium text-foreground/80 hover:text-terracotta transition-colors">
+            <Link key={link.name} href={link.href} className="relative text-sm font-medium text-forest-dark/80 hover:text-sage-button transition-colors">
               {link.name}
               {activeSection === link.id && (
                 <motion.div
                   layoutId="active-nav"
-                  className="absolute -bottom-2 left-0 right-0 h-0.5 bg-terracotta"
+                  className="absolute -bottom-2 left-0 right-0 h-0.5 bg-forest-dark"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3 }}
@@ -65,18 +65,18 @@ export function Navigation() {
 
         {/* Desktop Actions */}
         <div className="hidden lg:flex items-center gap-6">
-          <div className="flex gap-2 text-sm font-medium text-foreground/70 uppercase">
+          <div className="flex gap-2 text-sm font-medium text-forest-dark/70 uppercase">
             {['en', 'lv', 'ru'].map(lang => (
               <button 
                 key={lang} 
                 onClick={() => setCurrentLang(lang)}
-                className={`hover:text-terracotta transition-colors ${currentLang === lang ? 'text-terracotta font-bold' : ''}`}
+                className={`hover:text-forest-dark transition-colors ${currentLang === lang ? 'text-forest-dark font-bold' : ''}`}
               >
                 {lang}
               </button>
             ))}
           </div>
-          <button className="bg-terracotta text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-terracotta/90 transition-all shadow-md hover:shadow-lg">
+          <button className="bg-forest-dark text-sage-light px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-forest-dark/90 transition-all shadow-md hover:shadow-lg">
             Make an appointment
           </button>
         </div>

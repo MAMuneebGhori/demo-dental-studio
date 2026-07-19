@@ -11,13 +11,13 @@ export function AboutSection() {
 
   const yRight = useTransform(scrollYProgress, [0, 1], ["0%", "-50%"]);
 
-  const cards = [
-    { id: 1, title: "Premium Care", desc: "Experience dentistry like a spa." },
-    { id: 2, title: "Advanced Tech", desc: "State-of-the-art equipment." },
-    { id: 3, title: "Expert Team", desc: "Highly trained professionals." },
-    { id: 4, title: "Painless", desc: "Comfort at every step." },
-    { id: 5, title: "Aesthetics", desc: "Perfect your smile." },
-    { id: 6, title: "Longevity", desc: "Results that last a lifetime." }
+  const pillars = [
+    { id: 1, title: "More personal than personal", desc: "After a complex diagnosis, each patient is assigned a Treatment Plan Coordinator..." },
+    { id: 2, title: "A result you can see in advance", desc: "We create a 3D digital smile design before treatment even starts..." },
+    { id: 3, title: "Peace and safety during every appointment", desc: "We believe that treatment starts with a feeling..." },
+    { id: 4, title: "Movie experience in a dentist's chair", desc: "Choose your favourite movie, TV series or educational content..." },
+    { id: 5, title: "All in one place", desc: "Therapists, prosthodontists, endodontist, implantologists, aestheticians and hygienists are all here..." },
+    { id: 6, title: "Complete privacy", desc: "Treatment takes place in quiet, enclosed premises." }
   ];
 
   return (
@@ -27,7 +27,9 @@ export function AboutSection() {
           
           {/* Left Column - Sticky Text */}
           <div className="flex flex-col justify-center h-full">
-            <h2 className="text-4xl md:text-6xl font-bold text-terracotta mb-6">Anti-Gravity<br/>Experience</h2>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-terracotta mb-6 leading-tight">
+              Clinical Experience <br/>Pillars
+            </h2>
             <p className="text-lg md:text-xl text-foreground/80 max-w-md">
               We shift your psychological state from clinical anxiety to premium spa hospitality. Our mechanics ensure smooth sailing through every procedure.
             </p>
@@ -36,21 +38,23 @@ export function AboutSection() {
           {/* Right Column - Sliding Cards */}
           <div className="relative h-[80vh] overflow-hidden rounded-2xl hidden md:block">
             <motion.div style={{ y: yRight }} className="absolute top-0 w-full flex flex-col gap-6 pt-[40vh] pb-[40vh]">
-              {cards.map(card => (
-                <div key={card.id} className="bg-alabaster p-8 rounded-xl shadow-lg border border-terracotta/20 flex flex-col justify-center h-64">
-                  <h3 className="text-2xl font-bold text-terracotta mb-2">{card.title}</h3>
-                  <p className="text-foreground/70">{card.desc}</p>
+              {pillars.map(pillar => (
+                <div key={pillar.id} className="bg-alabaster p-10 rounded-2xl shadow-xl border border-terracotta/10 flex flex-col justify-center min-h-64 transform transition-all hover:scale-[1.02]">
+                  <div className="text-terracotta/20 text-5xl font-black mb-4">0{pillar.id}</div>
+                  <h3 className="text-2xl font-bold text-foreground mb-3">{pillar.title}</h3>
+                  <p className="text-foreground/70 text-lg leading-relaxed">{pillar.desc}</p>
                 </div>
               ))}
             </motion.div>
           </div>
           
           {/* Mobile Fallback */}
-          <div className="md:hidden flex flex-col gap-4 pb-24">
-            {cards.map(card => (
-                <div key={card.id} className="bg-alabaster p-6 rounded-xl shadow-lg border border-terracotta/20 flex flex-col justify-center">
-                  <h3 className="text-xl font-bold text-terracotta mb-2">{card.title}</h3>
-                  <p className="text-foreground/70">{card.desc}</p>
+          <div className="md:hidden flex flex-col gap-6 pb-24 h-[80vh] overflow-y-auto pt-12 no-scrollbar">
+            {pillars.map(pillar => (
+                <div key={pillar.id} className="bg-alabaster p-8 rounded-2xl shadow-lg border border-terracotta/10 flex flex-col justify-center">
+                  <div className="text-terracotta/20 text-4xl font-black mb-2">0{pillar.id}</div>
+                  <h3 className="text-xl font-bold text-foreground mb-2">{pillar.title}</h3>
+                  <p className="text-foreground/70">{pillar.desc}</p>
                 </div>
               ))}
           </div>

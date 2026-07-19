@@ -1,8 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import Link from "next/link";
-import { Menu, X, Globe } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 export function Navigation() {
   const [activeSection, setActiveSection] = useState("");
@@ -40,43 +39,38 @@ export function Navigation() {
   ];
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? "bg-sage-light/90 backdrop-blur-md shadow-sm py-4" : "bg-transparent py-6"}`}>
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? "bg-[#E5EDDE]/95 backdrop-blur-md border-b border-[#0D241C]/10 py-4" : "bg-transparent py-8"}`}>
+      <div className="max-w-[1400px] mx-auto px-8 flex justify-between items-center">
         {/* Logo */}
-        <Link href="/" className="text-2xl font-bold text-forest-dark tracking-tighter">LAVA.</Link>
+        <Link href="/" className="text-3xl font-light tracking-tight text-[#0D241C]">LAVA.</Link>
         
         {/* Desktop Links */}
-        <div className="hidden lg:flex gap-6 xl:gap-8 items-center">
+        <div className="hidden lg:flex gap-8 items-center">
           {links.map((link) => (
-            <Link key={link.name} href={link.href} className="relative text-sm font-medium text-forest-dark/80 hover:text-sage-button transition-colors">
+            <Link 
+              key={link.name} 
+              href={link.href} 
+              className={`relative text-base font-light tracking-tight text-[#0D241C] hover:opacity-70 transition-opacity ${activeSection === link.id ? "border-b border-current" : ""}`}
+            >
               {link.name}
-              {activeSection === link.id && (
-                <motion.div
-                  layoutId="active-nav"
-                  className="absolute -bottom-2 left-0 right-0 h-0.5 bg-forest-dark"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                />
-              )}
             </Link>
           ))}
         </div>
 
         {/* Desktop Actions */}
-        <div className="hidden lg:flex items-center gap-6">
-          <div className="flex gap-2 text-sm font-medium text-forest-dark/70 uppercase">
+        <div className="hidden lg:flex items-center gap-8">
+          <div className="flex gap-4 text-sm font-light tracking-tight text-[#0D241C] uppercase">
             {['en', 'lv', 'ru'].map(lang => (
               <button 
                 key={lang} 
                 onClick={() => setCurrentLang(lang)}
-                className={`hover:text-forest-dark transition-colors ${currentLang === lang ? 'text-forest-dark font-bold' : ''}`}
+                className={`hover:opacity-70 transition-opacity ${currentLang === lang ? 'border-b border-current' : 'opacity-60'}`}
               >
                 {lang}
               </button>
             ))}
           </div>
-          <button className="bg-forest-dark text-sage-light px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-forest-dark/90 transition-all shadow-md hover:shadow-lg">
+          <button className="rounded-full px-8 py-3 bg-[#0D241C] text-white font-light tracking-tight hover:bg-black transition-colors">
             Make an appointment
           </button>
         </div>

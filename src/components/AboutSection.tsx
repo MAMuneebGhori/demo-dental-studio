@@ -1,64 +1,134 @@
 "use client";
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { Pause, Play } from "lucide-react";
+
+const images = [
+  "/eq2.jpg",
+  "/eq3.jpg",
+  "/eq4.jpg",
+  "/eq5.jpg",
+  "/eq6.jpg",
+  "/autoclave-terlizer.jpg"
+];
 
 export function AboutSection() {
-  const targetRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
   const { scrollYProgress } = useScroll({
-    target: targetRef,
-    offset: ["start start", "end end"]
+    target: sectionRef,
+    offset: ["start center", "end center"]
   });
 
-  const yRight = useTransform(scrollYProgress, [0, 1], ["0%", "-50%"]);
+  const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
-  const pillars = [
-    { id: 1, title: "More personal than personal", desc: "After a complex diagnosis, each patient is assigned a Treatment Plan Coordinator..." },
-    { id: 2, title: "A result you can see in advance", desc: "We create a 3D digital smile design before treatment even starts..." },
-    { id: 3, title: "Peace and safety during every appointment", desc: "We believe that treatment starts with a feeling..." },
-    { id: 4, title: "Movie experience in a dentist's chair", desc: "Choose your favourite movie, TV series or educational content..." },
-    { id: 5, title: "All in one place", desc: "Therapists, prosthodontists, endodontist, implantologists, aestheticians and hygienists are all here..." },
-    { id: 6, title: "Complete privacy", desc: "Treatment takes place in quiet, enclosed premises." }
-  ];
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+    }, 3500);
+    return () => clearInterval(interval);
+  }, [isPaused]);
 
   return (
-    <section id="about" ref={targetRef} className="relative h-[300vh] bg-[#E5EDDE] text-[#0D241C]">
-      <div className="sticky top-0 h-screen flex items-center overflow-hidden">
-        <div className="max-w-[1400px] mx-auto px-8 w-full grid grid-cols-1 md:grid-cols-2 gap-16">
-          
-          {/* Left Column - Sticky Text */}
-          <div className="flex flex-col justify-center h-full">
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-light tracking-tight text-[#0D241C] mb-8 leading-tight">
-              Clinical Experience <br/>Pillars
-            </h2>
-            <p className="text-xl md:text-2xl font-light tracking-tight text-[#0D241C]/60 max-w-lg">
-              We shift your psychological state from clinical anxiety to premium spa hospitality. Our mechanics ensure smooth sailing through every procedure.
-            </p>
+    <section 
+      ref={sectionRef} 
+      id="about" 
+      className="relative min-h-screen py-24 md:py-32 overflow-hidden bg-[#E5EDDE]"
+    >
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full flex flex-col lg:flex-row justify-between items-center relative z-10 gap-16">
+        
+        {/* Left Column - Image Carousel */}
+        <div className="flex flex-col gap-6 w-full lg:w-auto items-start">
+          <div className="relative w-[280px] md:w-[320px] aspect-square lg:aspect-[4/5] rounded-sm overflow-hidden shadow-sm bg-black/5">
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={currentIndex}
+                src={images[currentIndex]}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.8, ease: "easeInOut" }}
+                className="absolute inset-0 w-full h-full object-cover"
+                alt={`Dental equipment ${currentIndex + 1}`}
+              />
+            </AnimatePresence>
           </div>
 
-          {/* Right Column - Sliding Cards */}
-          <div className="relative h-[80vh] overflow-hidden hidden md:block">
-            <motion.div style={{ y: yRight }} className="absolute top-0 w-full flex flex-col gap-12 pt-[40vh] pb-[40vh]">
-              {pillars.map(pillar => (
-                <div key={pillar.id} className="bg-transparent border-b border-[#0D241C]/10 flex flex-col justify-center min-h-64 pb-12">
-                  <div className="text-[#0D241C]/20 text-6xl font-light mb-6 tracking-tight">0{pillar.id}</div>
-                  <h3 className="text-3xl font-light tracking-tight text-[#0D241C] mb-4">{pillar.title}</h3>
-                  <p className="text-[#0D241C]/60 text-xl font-light tracking-tight leading-relaxed">{pillar.desc}</p>
-                </div>
+          {/* Carousel Controls */}
+          <div className="flex items-center gap-4 w-full max-w-[320px]">
+            <button 
+              onClick={() => setIsPaused(!isPaused)}
+              className="flex items-center justify-center w-10 h-10 rounded-full bg-[#0D241C] text-white hover:bg-[#0D241C]/90 transition-colors shadow-sm"
+              aria-label={isPaused ? "Play" : "Pause"}
+            >
+              {isPaused ? <Play size={16} fill="currentColor" /> : <Pause size={16} fill="currentColor" />}
+            </button>
+            
+            <div className="flex items-center gap-2 h-10 px-5 rounded-full bg-[#0D241C] shadow-sm">
+              {images.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => {
+                    setCurrentIndex(idx);
+                    setIsPaused(true);
+                  }}
+                  className={`relative h-2 rounded-full overflow-hidden transition-all duration-300 ease-out shrink-0 ${
+                    idx === currentIndex 
+                      ? "w-8 bg-white/20" 
+                      : "w-2 bg-white/40 hover:bg-white/70"
+                  }`}
+                  aria-label={`Go to slide ${idx + 1}`}
+                >
+                  {idx === currentIndex && (
+                    <motion.div
+                      key={currentIndex + (isPaused ? "-paused" : "")}
+                      className="absolute left-0 top-0 bottom-0 bg-white"
+                      initial={{ width: isPaused ? "100%" : "0%" }}
+                      animate={{ width: "100%" }}
+                      transition={{ 
+                        duration: isPaused ? 0 : 3.5, 
+                        ease: "linear" 
+                      }}
+                    />
+                  )}
+                </button>
               ))}
-            </motion.div>
-          </div>
-          
-          {/* Mobile Fallback */}
-          <div className="md:hidden flex flex-col gap-12 pb-32 h-[80vh] overflow-y-auto pt-16 no-scrollbar">
-            {pillars.map(pillar => (
-                <div key={pillar.id} className="bg-transparent border-b border-[#0D241C]/10 flex flex-col justify-center pb-12">
-                  <div className="text-[#0D241C]/20 text-5xl font-light mb-4 tracking-tight">0{pillar.id}</div>
-                  <h3 className="text-2xl font-light tracking-tight text-[#0D241C] mb-4">{pillar.title}</h3>
-                  <p className="text-[#0D241C]/60 font-light text-lg">{pillar.desc}</p>
-                </div>
-              ))}
+            </div>
           </div>
         </div>
+
+        {/* Right Column - Typography */}
+        <div className="relative w-full lg:w-[480px] xl:w-[540px]">
+          
+          <div className="relative pl-6 flex flex-col gap-12">
+            {/* Animated Scroll Line spanning BOTH text blocks */}
+            <div className="absolute left-0 top-1 bottom-1 w-[1px] bg-[#0D241C]/20">
+              <motion.div 
+                style={{ height: lineHeight }} 
+                className="w-[1.5px] bg-[#0D241C] origin-top absolute -left-[0.25px]"
+              />
+            </div>
+
+            <div>
+              <h2 className="text-xl md:text-[1.35rem] leading-relaxed font-normal text-[#0D241C] tracking-tight">
+                In our care, you'll receive not only treatment and a perfect smile, but also care, openness and support all the way to the result. Our mission is to change the perception of dentistry.
+              </h2>
+            </div>
+
+            <div className="flex flex-col gap-6 text-[#0D241C]/80 text-[15px] md:text-base font-light leading-relaxed">
+              <p>
+                Music, ambiance and a finely designed interior together with a specially tailored atmosphere will enable you to experience a completely different dentistry — one that is comfortable, calm and inspiring.
+              </p>
+              <p>
+                We want your experience with us to be like flying in first class — personal, convenient and with no worries or stress.
+              </p>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
   );

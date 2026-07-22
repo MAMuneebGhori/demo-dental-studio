@@ -1,71 +1,121 @@
 "use client";
-import { useState } from "react";
-import { Modal } from "./Modal";
+import Link from "next/link";
+import { teamData } from "@/data/team";
+import { useRef, useState } from "react";
+import { motion } from "framer-motion";
 
 export function TeamSection() {
-  const [selectedMember, setSelectedMember] = useState<any>(null);
-
-  const team = [
-    { id: 1, name: "Dr. Anna Berzina", role: "Chief Medical Officer", img: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=400&q=80" },
-    { id: 2, name: "Dr. Marcis Ozols", role: "Implantologist", img: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80" },
-    { id: 3, name: "Dr. Laura Kalnina", role: "Orthodontist", img: "https://images.unsplash.com/photo-1594824432258-0a09e072b220?auto=format&fit=crop&w=400&q=80" },
-    { id: 4, name: "Dr. Janis Krumins", role: "Prosthodontist", img: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=400&q=80" },
-  ];
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [hoveredId, setHoveredId] = useState<number | null>(null);
 
   return (
-    <>
-      <section id="team" className="py-32 bg-[#E5EDDE] text-[#0D241C]">
-        <div className="max-w-[1400px] mx-auto px-8">
-          <h2 className="text-5xl md:text-7xl font-light tracking-tight mb-16">The Team</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {team.map(member => (
-              <div 
-                key={member.id} 
-                className="group cursor-pointer"
-                onClick={() => setSelectedMember(member)}
-              >
-                <div className="relative aspect-[3/4] overflow-hidden mb-6">
-                  <img 
-                    src={member.img} 
-                    alt={member.name} 
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 filter grayscale hover:grayscale-0"
-                  />
-                  <div className="absolute inset-0 bg-[#0D241C]/10 transition-colors" />
-                </div>
-                <h3 className="text-2xl font-light tracking-tight mb-2">{member.name}</h3>
-                <p className="text-lg font-light tracking-tight text-[#0D241C]/60">{member.role}</p>
-              </div>
-            ))}
-          </div>
+    <section id="team" className="bg-[#0D241C] py-32">
+      {/* Header */}
+      <div className="max-w-[1400px] mx-auto px-8 mb-20 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div>
+          <p className="text-[#E5EDDE]/40 text-sm tracking-[0.3em] uppercase mb-4 font-light">The people behind every smile</p>
+          <h2 className="text-6xl md:text-8xl font-light tracking-tight text-[#E5EDDE] leading-none">Our Team</h2>
         </div>
-      </section>
+        <p className="text-[#E5EDDE]/50 font-light text-xl max-w-sm leading-relaxed">
+          World-class specialists united by one mission — your perfect smile.
+        </p>
+      </div>
 
-      <Modal isOpen={!!selectedMember} onClose={() => setSelectedMember(null)}>
-        {selectedMember && (
-          <div className="w-full min-h-screen flex flex-col md:flex-row text-[#E5EDDE]">
-            <div className="flex-1 hidden md:block">
-              <img src={selectedMember.img} alt={selectedMember.name} className="w-full h-full object-cover filter grayscale" />
-            </div>
-            <div className="flex-1 flex flex-col justify-center p-8 md:p-24">
-              <h2 className="text-5xl md:text-8xl font-light tracking-tight mb-6">{selectedMember.name}</h2>
-              <p className="text-2xl font-light tracking-tight text-[#E5EDDE]/60 mb-12">{selectedMember.role}</p>
-              <div className="border-t border-white/10 pt-12 space-y-6 text-xl font-light tracking-tight text-white/80">
-                <p>
-                  With over 15 years of clinical experience, Dr. {selectedMember.name.split(" ")[1]} has transformed thousands of smiles using advanced microscopic dentistry.
-                </p>
-                <p>
-                  "My philosophy is simple: treat every patient exactly as I would treat my own family. Precision, patience, and absolute transparency."
-                </p>
+      {/* Horizontal scroll cards */}
+      <div
+        ref={containerRef}
+        className="flex gap-6 px-8 overflow-x-auto scroll-smooth pb-8"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+      >
+        {teamData.map((member, i) => (
+          <motion.div
+            key={member.id}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: i * 0.12 }}
+            viewport={{ once: true }}
+            className="flex-shrink-0 w-[320px] md:w-[380px]"
+            onMouseEnter={() => setHoveredId(member.id)}
+            onMouseLeave={() => setHoveredId(null)}
+          >
+            <Link href={`/team/${member.slug}`} className="group block">
+              {/* Photo */}
+              <div className="relative w-full aspect-[3/4] rounded-[2rem] overflow-hidden mb-6">
+                <img
+                  src={member.img}
+                  alt={member.name}
+                  className="absolute inset-0 w-full h-full object-cover transition-all duration-1000 group-hover:scale-105 filter grayscale group-hover:grayscale-0"
+                />
+                {/* Dark overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0D241C]/70 via-transparent to-transparent" />
+                {/* Bottom label */}
+                <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[#E5EDDE]/60 text-xs tracking-widest uppercase font-light">
+                      {member.specialty}
+                    </span>
+                    {/* Arrow button */}
+                    <div className="w-10 h-10 rounded-full bg-[#E5EDDE]/10 border border-[#E5EDDE]/20 flex items-center justify-center group-hover:bg-[#E5EDDE] group-hover:border-[#E5EDDE] transition-all duration-300">
+                      <svg
+                        width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" strokeWidth="1.5"
+                        className="text-[#E5EDDE] group-hover:text-[#0D241C] transition-colors duration-300 group-hover:rotate-45 transition-transform"
+                      >
+                        <line x1="7" y1="17" x2="17" y2="7" />
+                        <polyline points="7 7 17 7 17 17" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="mt-16">
-                <button className="rounded-full px-8 py-3 bg-[#E5EDDE] text-[#0D241C] hover:bg-white transition-colors font-light tracking-tight">
-                  Book Consultation
-                </button>
+
+              {/* Text */}
+              <div className="px-2">
+                <h3 className="text-2xl font-light tracking-tight text-[#E5EDDE] mb-1 group-hover:text-white transition-colors">
+                  {member.name}
+                </h3>
+                <p className="text-[#E5EDDE]/50 font-light">{member.role}</p>
+
+                {/* Experience badge */}
+                <div className="mt-4 flex items-center gap-3">
+                  <span className="px-4 py-1.5 rounded-full border border-[#E5EDDE]/10 text-[#E5EDDE]/40 text-xs tracking-widest font-light">
+                    {member.experience}
+                  </span>
+                  <span className="px-4 py-1.5 rounded-full border border-[#E5EDDE]/10 text-[#E5EDDE]/40 text-xs tracking-widest font-light">
+                    {member.languages.length} languages
+                  </span>
+                </div>
               </div>
+            </Link>
+          </motion.div>
+        ))}
+
+        {/* CTA card */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          viewport={{ once: true }}
+          className="flex-shrink-0 w-[320px] md:w-[380px]"
+        >
+          <div className="relative w-full aspect-[3/4] rounded-[2rem] border border-[#E5EDDE]/10 flex flex-col items-center justify-center text-center p-10 hover:border-[#E5EDDE]/30 transition-colors cursor-pointer group">
+            <div className="w-16 h-16 rounded-full border border-[#E5EDDE]/20 flex items-center justify-center mb-8 group-hover:bg-[#E5EDDE]/10 transition-colors">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="text-[#E5EDDE]/60">
+                <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
             </div>
+            <h3 className="text-2xl font-light text-[#E5EDDE] mb-4">Join Our Team</h3>
+            <p className="text-[#E5EDDE]/40 font-light text-sm leading-relaxed">
+              Are you a passionate dental professional? We are always looking for exceptional people.
+            </p>
+            <a href="mailto:info@demodental.com">
+              <button className="mt-10 rounded-full px-8 py-3 border border-[#E5EDDE]/20 text-[#E5EDDE]/60 hover:bg-[#E5EDDE]/10 transition-colors font-light text-sm">
+                Learn More
+              </button>
+            </a>
           </div>
-        )}
-      </Modal>
-    </>
+        </motion.div>
+      </div>
+    </section>
   );
 }

@@ -31,7 +31,7 @@ export function Modal({ isOpen, onClose, children }: ModalProps) {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 40, opacity: 0 }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="w-full h-full flex flex-col relative overflow-y-auto"
+            className="w-full h-full flex flex-col relative"
           >
             {children}
           </motion.div>

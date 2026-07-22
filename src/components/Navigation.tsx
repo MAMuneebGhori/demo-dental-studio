@@ -1,12 +1,14 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 
 export function Navigation() {
   const [activeSection, setActiveSection] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
   const [currentLang, setCurrentLang] = useState("en");
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,9 +26,13 @@ export function Navigation() {
         }
       }
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  if (pathname?.startsWith("/services/") || pathname?.startsWith("/team/")) {
+    return null;
+  }
 
   const links = [
     { name: "About us", href: "#about", id: "about" },
@@ -39,10 +45,10 @@ export function Navigation() {
   ];
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? "bg-[#E5EDDE]/95 backdrop-blur-md border-b border-[#0D241C]/10 py-4" : "bg-transparent py-8"}`}>
+    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? "bg-[#E5EDDE] py-4" : "bg-transparent py-8"}`}>
       <div className="max-w-[1400px] mx-auto px-8 flex justify-between items-center">
         {/* Logo */}
-        <Link href="/" className="text-3xl font-light tracking-tight text-[#0D241C]">LAVA.</Link>
+        <Link href="/" className="text-3xl font-light tracking-tight text-[#0D241C]">DEMO.</Link>
         
         {/* Desktop Links */}
         <div className="hidden lg:flex gap-8 items-center">
@@ -70,9 +76,9 @@ export function Navigation() {
               </button>
             ))}
           </div>
-          <button className="rounded-full px-8 py-3 bg-[#0D241C] text-white font-light tracking-tight hover:bg-black transition-colors">
-            Make an appointment
-          </button>
+          <Link href="/appointment" className="rounded-full px-8 py-3 bg-[#071a12] text-white font-medium tracking-wide hover:bg-[#0a261a] transition-colors shadow-lg">
+            Book appointment
+          </Link>
         </div>
       </div>
     </nav>

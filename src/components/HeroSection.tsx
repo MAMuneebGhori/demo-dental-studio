@@ -1,20 +1,21 @@
 "use client";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 export function HeroSection() {
   return (
-    <section id="home" className="relative h-screen w-full flex items-center justify-center overflow-hidden">
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover z-0 opacity-30 mix-blend-multiply grayscale"
-        src="https://cdn.pixabay.com/video/2020/05/25/40141-424888874_large.mp4"
+    <section id="home" className="relative min-h-screen w-full flex items-center justify-start">
+      {/* Background Image */}
+      <img
+        className="absolute inset-0 w-full h-full object-cover z-0 opacity-80"
+        src="/main-background.jpg"
+        alt="Hero Background"
       />
-      <div className="absolute inset-0 bg-[#E5EDDE]/80 z-10" />
+      {/* Optional overlay to ensure text readability */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#E5EDDE]/90 via-[#E5EDDE]/50 to-transparent z-10" />
       
-      <div className="relative z-20 text-center flex flex-col items-center px-8 max-w-4xl mx-auto mt-24">
+      {/* Left-aligned text content */}
+      <div className="relative z-20 flex flex-col items-start text-left px-8 md:px-16 lg:px-24 max-w-[1400px] w-full mt-32 mb-16">
         <motion.h1
           initial="hidden"
           animate="visible"
@@ -25,39 +26,43 @@ export function HeroSection() {
               transition: { staggerChildren: 0.15 },
             },
           }}
-          className="text-6xl md:text-8xl font-light tracking-tight text-[#0D241C] mb-8"
+          className="text-6xl md:text-8xl font-light tracking-tight text-[#0D241C] mb-6 max-w-3xl"
         >
           <motion.span 
             className="block" 
-            variants={{ hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1 } }}
+            variants={{ hidden: { x: -50, opacity: 0 }, visible: { x: 0, opacity: 1 } }}
           >
             Dentistry that
           </motion.span>
           <motion.span 
             className="block" 
-            variants={{ hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1 } }}
+            variants={{ hidden: { x: -50, opacity: 0 }, visible: { x: 0, opacity: 1 } }}
           >
             will make you smile
           </motion.span>
         </motion.h1>
         
         <motion.h2 
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
+          initial={{ x: -30, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.8 }}
-          className="text-2xl md:text-4xl font-light tracking-tight text-[#0D241C]/80 mb-8"
+          className="text-2xl md:text-4xl font-light tracking-tight text-[#0D241C]/80 mb-8 max-w-2xl"
         >
           Safe, modern, painless and with a smile!
         </motion.h2>
         
-        <motion.p 
+        <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.8 }}
-          className="text-lg md:text-xl font-light tracking-tight text-[#0D241C]/60 max-w-2xl leading-relaxed"
+          className="mt-8"
         >
-          We change the experience and help you regain confidence. In our care, you'll receive not only treatment and a perfect smile, but also care, openness and support all the way to the result.
-        </motion.p>
+          <Link href="/appointment">
+            <button className="rounded-full px-10 py-4 bg-[#0D241C] text-white text-lg font-bold tracking-wide hover:opacity-90 transition-colors shadow-lg">
+              Book appointment
+            </button>
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

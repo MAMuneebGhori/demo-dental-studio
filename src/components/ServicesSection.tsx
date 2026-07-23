@@ -14,9 +14,9 @@ export function ServicesSection() {
     <>
       <section id="services">
         {/* Top Layout - Stacking Cards */}
-        <div className="bg-[#E5EDDE] py-32 relative">
-          <div className="max-w-[1400px] mx-auto px-8 mb-24 text-center">
-            <h2 className="text-5xl md:text-8xl font-light tracking-tight text-[#0D241C] mb-6">Signature Services</h2>
+        <div className="bg-[#E5EDDE] py-16 md:py-32 relative">
+          <div className="max-w-[1400px] mx-auto px-4 md:px-8 mb-24 text-center">
+            <h2 className="text-4xl md:text-8xl font-light tracking-tight text-[#0D241C] mb-6">Signature Services</h2>
             <p className="text-xl md:text-2xl text-[#0D241C]/60 font-light max-w-2xl mx-auto">
               Experience world-class dental care with our premium, specialized treatments designed for perfection.
             </p>

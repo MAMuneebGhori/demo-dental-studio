@@ -69,15 +69,15 @@ function AppointmentWizard() {
     <main className="w-full min-h-screen bg-[#8ea496] text-[#0a1e16] font-sans selection:bg-[#0a1e16] selection:text-[#8ea496]">
       
       {/* Top Navbar */}
-      <div className="w-full px-8 py-6 flex justify-between items-center">
+      <div className="w-full px-4 md:px-8 py-4 md:py-6 flex justify-between items-center">
         <div className="flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full bg-[#0a1e16]" />
-          <span className="font-medium">Book an appointment</span>
+          <span className="font-medium text-sm md:text-base">Book an appointment</span>
         </div>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4 md:gap-6">
           <span className="text-sm font-medium tracking-wide">EN ⌵</span>
           <Link href="/">
-            <button className="w-10 h-10 rounded-full bg-[#0a1e16] text-[#8ea496] flex items-center justify-center hover:scale-105 transition-transform">
+            <button className="w-10 h-10 min-w-[44px] min-h-[44px] rounded-full bg-[#0a1e16] text-[#8ea496] flex items-center justify-center hover:scale-105 active:scale-95 transition-transform">
               <X size={18} strokeWidth={2.5} />
             </button>
           </Link>
@@ -206,8 +206,8 @@ function AppointmentWizard() {
                   </div>
                 </motion.div>
               ) : (
-                <div className="flex flex-col gap-12">
-                  <div className="max-w-md bg-[#9ab5a3] p-6 rounded-2xl border border-[#0a1e16]/10 shadow-sm">
+              <div className="flex flex-col gap-12">
+                  <div className="w-full md:max-w-md bg-[#9ab5a3] p-4 md:p-6 rounded-2xl border border-[#0a1e16]/10 shadow-sm">
                     {/* Calendar Header */}
                     <div className="flex justify-between items-center mb-6">
                       <button className="w-8 h-8 rounded-full bg-[#0a1e16] text-[#8ea496] flex items-center justify-center hover:opacity-80">
@@ -291,7 +291,7 @@ function AppointmentWizard() {
           {/* STEP 4: DETAILS */}
           {step === 4 && (
             <motion.div key="step4" layout initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16">
                 
                 {/* Form */}
                 <form action={formAction} className="flex flex-col gap-8">
@@ -342,14 +342,14 @@ function AppointmentWizard() {
                     </label>
                   </div>
 
-                  <div className="flex justify-between items-center mt-8">
-                    <button type="button" onClick={() => setStep(3)} className="flex items-center gap-2 text-sm font-semibold hover:opacity-70 transition-opacity">
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mt-8 gap-4">
+                    <button type="button" onClick={() => setStep(3)} className="flex items-center gap-2 text-sm font-semibold min-h-[44px] hover:opacity-70 active:opacity-70 transition-opacity">
                       <ChevronLeft size={16} /> Back
                     </button>
                     <button 
                       type="submit"
                       disabled={isPending}
-                      className="px-8 py-4 bg-[#0a1e16] text-[#8ea496] rounded-full text-sm font-semibold tracking-wide hover:opacity-90 transition-all flex items-center gap-2 disabled:opacity-70"
+                      className="w-full sm:w-auto px-8 py-3.5 min-h-[44px] bg-[#0a1e16] text-[#8ea496] rounded-full text-sm font-semibold tracking-wide hover:opacity-90 active:opacity-80 transition-all flex items-center justify-center gap-2 disabled:opacity-70"
                     >
                       {isPending ? (
                         <><Loader2 size={16} className="animate-spin" /> Booking...</>

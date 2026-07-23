@@ -60,7 +60,7 @@ function FaqItem({ faq, index, isOpen, onToggle }: {
         <motion.div
           animate={{ rotate: isOpen ? 45 : 0 }}
           transition={{ duration: 0.22, ease: "easeInOut" }}
-          className={`flex-shrink-0 w-9 h-9 rounded-full border flex items-center justify-center transition-colors duration-200 ${
+          className={`flex-shrink-0 w-11 h-11 rounded-full border flex items-center justify-center transition-colors duration-200 ${
             isOpen
               ? "bg-[#E5EDDE] border-[#E5EDDE] text-[#0D241C]"
               : "border-[#E5EDDE]/20 text-[#E5EDDE]/40 group-hover:border-[#E5EDDE]/50"
@@ -79,7 +79,7 @@ function FaqItem({ faq, index, isOpen, onToggle }: {
         }}
       >
         <div ref={contentRef}>
-          <p className="pb-8 pr-12 text-[#E5EDDE]/60 font-light text-base md:text-lg leading-relaxed max-w-3xl">
+          <p className="pb-8 pr-4 md:pr-12 text-[#E5EDDE]/60 font-light text-base md:text-lg leading-relaxed max-w-3xl">
             {faq.a}
           </p>
         </div>
@@ -94,7 +94,7 @@ export function FaqSection() {
   const toggle = (i: number) => setOpenIdx(openIdx === i ? null : i);
 
   return (
-    <section id="faq" className="bg-[#0D241C] py-32 px-8">
+    <section id="faq" className="bg-[#0D241C] py-16 md:py-32 px-4 md:px-8">
       <div className="max-w-[1400px] mx-auto">
 
         {/* Header */}
@@ -131,7 +131,7 @@ export function FaqSection() {
           </div>
           <button 
             onClick={() => window.dispatchEvent(new CustomEvent('open-chat'))}
-            className="rounded-full px-8 py-3 bg-[#E5EDDE] text-[#0D241C] hover:bg-white hover:scale-105 transition-all font-light text-sm tracking-wide"
+            className="rounded-full px-8 py-3 min-h-[44px] bg-[#E5EDDE] text-[#0D241C] hover:bg-white active:scale-95 transition-all font-light text-sm tracking-wide"
           >
             Contact us
           </button>

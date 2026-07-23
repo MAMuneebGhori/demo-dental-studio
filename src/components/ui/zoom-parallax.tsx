@@ -40,27 +40,30 @@ export function ZoomParallax({ images, title, subtitle }: ZoomParallaxProps) {
 
   const scales = [scale4, scale5, scale6, scale5, scale6, scale8, scale9];
 
+  const positions = [
+    "h-[40vh] w-[75vw] md:h-[25vh] md:w-[25vw]", // Center
+    "!-top-[30vh] !left-[5vw] !h-[25vh] !w-[50vw] md:!-top-[30vh] md:!left-[5vw] md:!h-[30vh] md:!w-[35vw]", // 1
+    "!-top-[15vh] !-left-[30vw] !h-[35vh] !w-[45vw] md:!-top-[10vh] md:!-left-[25vw] md:!h-[45vh] md:!w-[20vw]", // 2
+    "!left-[35vw] !h-[25vh] !w-[45vw] md:!left-[27.5vw] md:!h-[25vh] md:!w-[25vw]", // 3
+    "!top-[35vh] !left-[10vw] !h-[25vh] !w-[50vw] md:!top-[27.5vh] md:!left-[5vw] md:!h-[25vh] md:!w-[20vw]", // 4
+    "!top-[35vh] !-left-[30vw] !h-[25vh] !w-[55vw] md:!top-[27.5vh] md:!-left-[22.5vw] md:!h-[25vh] md:!w-[30vw]", // 5
+    "!top-[25vh] !left-[35vw] !h-[20vh] !w-[35vw] md:!top-[22.5vh] md:!left-[25vw] md:!h-[15vh] md:!w-[15vw]" // 6
+  ];
+
   return (
-    <div ref={container} className="relative h-[300vh] bg-[#E5EDDE]">
+    <div ref={container} className="relative h-[400vh] sm:h-[300vh] bg-[#E5EDDE]">
       <div className="sticky top-0 h-screen overflow-hidden">
         {images.map(({ src, alt }, index) => {
           const scale = scales[index % scales.length];
+          const posClass = positions[index % positions.length];
 
           return (
             <motion.div
               key={index}
               style={{ scale }}
-              className={`absolute top-0 flex h-full w-full items-center justify-center ${
-                index === 1 ? "[&>div]:!-top-[30vh] [&>div]:!left-[5vw] [&>div]:!h-[30vh] [&>div]:!w-[35vw]" : ""
-              } ${
-                index === 2 ? "[&>div]:!-top-[10vh] [&>div]:!-left-[25vw] [&>div]:!h-[45vh] [&>div]:!w-[20vw]" : ""
-              } ${index === 3 ? "[&>div]:!left-[27.5vw] [&>div]:!h-[25vh] [&>div]:!w-[25vw]" : ""} ${
-                index === 4 ? "[&>div]:!top-[27.5vh] [&>div]:!left-[5vw] [&>div]:!h-[25vh] [&>div]:!w-[20vw]" : ""
-              } ${
-                index === 5 ? "[&>div]:!top-[27.5vh] [&>div]:!-left-[22.5vw] [&>div]:!h-[25vh] [&>div]:!w-[30vw]" : ""
-              } ${index === 6 ? "[&>div]:!top-[22.5vh] [&>div]:!left-[25vw] [&>div]:!h-[15vh] [&>div]:!w-[15vw]" : ""} `}
+              className="absolute top-0 flex h-full w-full items-center justify-center"
             >
-              <div className="relative h-[25vh] w-[25vw]">
+              <div className={`relative ${posClass}`}>
                 <img
                   src={src || "/placeholder.svg"}
                   alt={alt || `Parallax image ${index + 1}`}

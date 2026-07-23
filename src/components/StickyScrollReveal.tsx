@@ -23,11 +23,12 @@ export function StickyScrollReveal() {
   const textOpacity = useTransform(scrollYProgress, [0.15, 0.25], [1, 0]);
   const textY = useTransform(scrollYProgress, [0.15, 0.25], [0, -50]);
 
-  // Phase 4: The Card Reveal (Solid, starts completely offscreen, ends slightly lower)
-  const cardY = useTransform(scrollYProgress, [0.2, 0.4], [1500, 20]);
+  // Phase 4: The Card Reveal (Fades and scales in the center)
+  const cardScale = useTransform(scrollYProgress, [0.25, 0.4], [0.8, 1]);
+  const cardOpacity = useTransform(scrollYProgress, [0.25, 0.4], [0, 1]);
 
   return (
-    <section ref={containerRef} className="relative w-full h-[200vh]">
+    <section ref={containerRef} className="relative w-full h-[250vh] sm:h-[200vh] md:h-[200vh]">
       {/* Pinned Wrapper */}
       <div className="sticky top-0 w-full h-screen overflow-hidden flex items-center justify-center">
         
@@ -127,11 +128,11 @@ export function StickyScrollReveal() {
 
         {/* Phase 4: Card Reveal */}
         <motion.div
-          style={{ y: cardY }}
+          style={{ scale: cardScale, opacity: cardOpacity }}
           className="absolute z-30 w-[95%] max-w-5xl bg-[#e4f3e3] rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row h-auto md:h-[520px]"
         >
           {/* Video Placeholder (Left - Adjusted for 9:16 Portrait) */}
-          <div className="w-full md:w-5/12 h-[350px] md:h-full bg-[#0D241C] relative flex-shrink-0">
+          <div className="w-full md:w-5/12 h-[220px] sm:h-[280px] md:h-full bg-[#0D241C] relative flex-shrink-0">
             <video 
               src="/promo-video.mp4" 
               className="absolute inset-0 w-full h-full object-cover"
@@ -143,15 +144,15 @@ export function StickyScrollReveal() {
           </div>
 
           {/* Text/CTA (Right) */}
-          <div className="w-full md:w-7/12 p-8 md:py-16 md:pr-16 md:pl-24 md:pb-24 flex flex-col justify-center items-start text-[#0D241C]">
-            <h3 className="text-3xl md:text-4xl font-medium mb-6 tracking-tight">
+          <div className="w-full md:w-7/12 p-6 sm:p-8 md:py-16 md:pr-16 md:pl-24 md:pb-24 flex flex-col justify-center items-start text-[#0D241C]">
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-medium mb-3 sm:mb-6 tracking-tight">
               A result you can see in advance
             </h3>
-            <p className="text-lg md:text-xl opacity-80 mb-16 leading-relaxed font-light">
+            <p className="text-base sm:text-lg md:text-xl opacity-80 mb-6 sm:mb-16 leading-relaxed font-light">
               We create a 3D digital smile design before treatment even starts. Not only do you know what the end result will be, but you can see it, influence it, and feel confident.
             </p>
             <Link href="/appointment" target="_blank" rel="noopener noreferrer">
-              <button className="px-8 py-4 bg-[#0D241C] text-[#e4f3e3] rounded-full font-medium hover:bg-emerald-900 transition-colors text-lg shadow-xl">
+              <button className="px-6 py-3 sm:px-8 sm:py-4 min-h-[44px] bg-[#0D241C] text-[#e4f3e3] rounded-full font-medium hover:bg-emerald-900 active:bg-emerald-800 transition-colors text-base sm:text-lg shadow-xl">
                 Make an appointment
               </button>
             </Link>

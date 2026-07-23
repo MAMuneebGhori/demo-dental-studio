@@ -354,7 +354,8 @@ const InteractiveBentoGallery: React.FC<InteractiveBentoGalleryProps> = ({ media
             
                 <motion.div
                             id="gallery-grid"
-                            className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 auto-rows-[250px]"
+                            className="flex sm:grid flex-nowrap sm:grid-cols-3 md:grid-cols-4 gap-4 sm:auto-rows-[250px] overflow-x-auto sm:overflow-visible snap-x snap-mandatory pb-8 sm:pb-0 scroll-smooth"
+                            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
                             initial="hidden"
                             animate="visible"
                             exit="hidden"
@@ -370,7 +371,7 @@ const InteractiveBentoGallery: React.FC<InteractiveBentoGalleryProps> = ({ media
                                 <motion.div
                                     key={item.id}
                                     layoutId={`media-${item.id}`}
-                                    className={`relative overflow-hidden rounded-xl cursor-move ${item.span} group`}
+                                    className={`relative overflow-hidden rounded-xl cursor-move ${item.span} group flex-shrink-0 w-[85vw] sm:w-auto h-[400px] sm:h-auto snap-center`}
                                     onClick={() => !isDragging && handleOpen(item)}
                                     variants={{
                                         hidden: { y: 50, scale: 0.9, opacity: 0 },

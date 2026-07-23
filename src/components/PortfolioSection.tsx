@@ -254,9 +254,9 @@ About the service -> Make an appointment`,
 
 export function PortfolioSection() {
   return (
-    <section id="portfolio" className="relative py-32 bg-[#E5EDDE] text-[#0D241C]">
+    <section id="portfolio" className="relative py-16 md:py-32 bg-[#E5EDDE] text-[#0D241C]">
       <div className="w-full px-4 md:px-8 mb-16">
-        <h2 className="text-5xl md:text-7xl font-light tracking-tight mb-8 max-w-[1400px] mx-auto leading-tight">
+        <h2 className="text-4xl sm:text-5xl md:text-7xl font-light tracking-tight mb-8 max-w-[1400px] mx-auto leading-tight break-words">
           Our patients' smiles speak for themselves.
         </h2>
       </div>

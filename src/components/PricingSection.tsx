@@ -70,8 +70,8 @@ export function PricingSection() {
   const headingY = useTransform(scrollYProgress, [0, 1], [40, -40]);
 
   return (
-    <section ref={sectionRef} id="price" className="bg-[#E5EDDE] text-[#0D241C] py-32 overflow-hidden">
-      <div className="max-w-[1400px] mx-auto px-8">
+    <section ref={sectionRef} id="price" className="bg-[#E5EDDE] text-[#0D241C] py-16 md:py-32 overflow-hidden">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-8">
 
         {/* Header with parallax */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-20">
@@ -202,11 +202,11 @@ export function PricingSection() {
                   className="mt-12 pt-8 border-t border-[#0D241C]/10 flex flex-wrap gap-4"
                 >
                   <Link href="/appointment" target="_blank" rel="noopener noreferrer">
-                    <button className="rounded-full px-8 py-3 bg-[#0D241C] text-white hover:bg-black hover:scale-105 transition-all font-light text-sm tracking-wide">
+                    <button className="rounded-full px-8 py-3 min-h-[44px] bg-[#0D241C] text-white hover:bg-black active:scale-95 transition-all font-light text-sm tracking-wide">
                       Make an appointment
                     </button>
                   </Link>
-                  <button className="rounded-full px-8 py-3 border border-[#0D241C]/20 text-[#0D241C]/60 hover:bg-[#0D241C]/5 transition-colors font-light text-sm tracking-wide">
+                  <button className="rounded-full px-8 py-3 min-h-[44px] border border-[#0D241C]/20 text-[#0D241C]/60 hover:bg-[#0D241C]/5 active:bg-[#0D241C]/10 transition-colors font-light text-sm tracking-wide">
                     Download full price list
                   </button>
                 </motion.div>

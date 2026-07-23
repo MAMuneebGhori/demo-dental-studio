@@ -73,7 +73,7 @@ export function AntiGravityChatWidget() {
   };
 
   return (
-    <div className="fixed bottom-8 right-8 z-50 flex flex-col items-end">
+    <div className="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-50 flex flex-col items-end">
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -87,7 +87,7 @@ export function AntiGravityChatWidget() {
               <h3 className="font-medium text-sm tracking-wide flex items-center gap-2">
                 <Activity size={16} strokeWidth={1.5} className="text-[#c9a973]" /> Clinical Concierge
               </h3>
-              <button onClick={() => setIsOpen(false)} className="hover:opacity-70 transition-opacity">
+              <button onClick={() => setIsOpen(false)} aria-label="Close chat" className="hover:opacity-70 active:opacity-50 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center transition-opacity -mr-2">
                 <X size={20} strokeWidth={1} />
               </button>
             </div>
@@ -141,7 +141,7 @@ export function AntiGravityChatWidget() {
       {/* Floating Toggle Button */}
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="w-16 h-16 bg-[#0D241C] text-[#E5EDDE] rounded-full shadow-2xl flex items-center justify-center hover:scale-105 transition-transform relative"
+        className="w-16 h-16 bg-[#0D241C] text-[#E5EDDE] rounded-full shadow-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-transform relative"
       >
         {!isOpen && (
           <span className="absolute top-0 right-0 w-4 h-4 bg-[#c9a973] border-2 border-[#E5EDDE] rounded-full animate-pulse" />

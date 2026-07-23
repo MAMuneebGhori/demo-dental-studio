@@ -80,7 +80,7 @@ export function Footer() {
         ref={overlayRef}
         className="relative z-20 w-full md:w-[65%] lg:w-[55%] xl:w-[50%] ml-auto min-h-screen flex flex-col justify-center pointer-events-auto"
       >
-        <div className="w-full pt-[45vh] md:pt-0 px-8 md:px-12 lg:px-20 pb-16 md:pb-24">
+        <div className="w-full mt-[45vh] md:mt-0 pt-8 md:pt-0 px-4 md:px-12 lg:px-20 pb-16 md:pb-24 bg-[#071a12] md:bg-transparent relative z-30">
           
           <motion.div 
             initial="hidden"
@@ -201,19 +201,19 @@ export function Footer() {
               <p>2026 © M A Muneeb Ghori. All rights reserved.</p>
               
               <div className="flex items-center gap-6">
-                <Link href="#" className="hover:text-white transition-colors group relative pb-1">
+                <Link href="#" className="hover:text-white transition-colors group relative pb-1 min-h-[44px] flex items-center">
                   Privacy policy
                   <span className="absolute left-0 bottom-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full"></span>
                 </Link>
-                <div className="flex gap-4 border-l border-white/20 pl-6">
-                   <a href="#" aria-label="Instagram" className="relative hover:text-[#c9a973] transition-colors group p-1">
+                <div className="flex gap-4 border-l border-white/20 pl-6 items-center">
+                   <a href="#" aria-label="Instagram" className="relative hover:text-[#c9a973] transition-colors group min-h-[44px] min-w-[44px] flex items-center justify-center">
                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
                      </svg>
                    </a>
-                   <a href="#" aria-label="Facebook" className="relative hover:text-[#c9a973] transition-colors group p-1">
+                   <a href="#" aria-label="Facebook" className="relative hover:text-[#c9a973] transition-colors group min-h-[44px] min-w-[44px] flex items-center justify-center">
                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
                      </svg>

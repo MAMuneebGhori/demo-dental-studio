@@ -34,8 +34,8 @@ export default async function DashboardLayout({
 
   return (
     <div className="flex h-screen bg-[#E5EDDE] text-[#0D241C] overflow-hidden">
-      {/* Sidebar */}
-      <aside className="w-64 bg-[#071a12] text-[#E5EDDE] flex flex-col justify-between hidden md:flex">
+      {/* Sidebar - hidden on mobile, visible md+ */}
+      <aside className="w-64 bg-[#071a12] text-[#E5EDDE] flex-col justify-between hidden md:flex shrink-0">
         <div className="p-6">
           <Link href="/" className="flex items-center gap-2 mb-12 cursor-pointer">
             <div className="w-8 h-8 bg-[#c9a973] rounded-full flex items-center justify-center">

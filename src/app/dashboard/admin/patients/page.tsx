@@ -54,7 +54,7 @@ export default function PatientsDirectoryPage() {
   };
 
   return (
-    <div className="p-8 max-w-7xl mx-auto">
+    <div className="p-4 md:p-8 max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
           <h1 className="text-4xl font-serif tracking-tight mb-2">Patient Directory</h1>
@@ -131,7 +131,7 @@ export default function PatientsDirectoryPage() {
                     </div>
                   </td>
                   <td className="px-6 py-4 text-right">
-                    <button className="text-sm font-semibold text-[#c9a973] hover:text-[#0D241C] transition-colors flex items-center justify-end gap-1 ml-auto">
+                    <button className="text-sm font-semibold text-[#c9a973] hover:text-[#0D241C] active:text-[#0D241C] transition-colors flex items-center justify-end gap-1 ml-auto min-h-[44px]">
                       <FileText size={16} /> View Record
                     </button>
                   </td>
@@ -156,14 +156,14 @@ export default function PatientsDirectoryPage() {
             <button 
               onClick={handlePrevPage}
               disabled={page === 0 || loading}
-              className="p-2 rounded-md border border-[#0D241C]/10 bg-white disabled:opacity-50 hover:bg-[#E5EDDE] transition-colors"
+              className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md border border-[#0D241C]/10 bg-white disabled:opacity-50 hover:bg-[#E5EDDE] active:bg-[#E5EDDE] transition-colors"
             >
               <ChevronLeft size={16} />
             </button>
             <button 
               onClick={handleNextPage}
               disabled={(page + 1) * limit >= totalCount || loading}
-              className="p-2 rounded-md border border-[#0D241C]/10 bg-white disabled:opacity-50 hover:bg-[#E5EDDE] transition-colors"
+              className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md border border-[#0D241C]/10 bg-white disabled:opacity-50 hover:bg-[#E5EDDE] active:bg-[#E5EDDE] transition-colors"
             >
               <ChevronRight size={16} />
             </button>

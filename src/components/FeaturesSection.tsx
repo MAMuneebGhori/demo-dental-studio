@@ -49,63 +49,51 @@ export function FeaturesSection() {
   });
 
   return (
-    <section ref={containerRef} className="relative w-full h-auto min-[1600px]:h-[400vh] bg-[#0D241C]">
+    <section ref={containerRef} className="relative w-full h-auto [@media(min-width:1024px)_and_(min-height:800px)]:h-[400vh] bg-[#0D241C]">
       
       {/* ----------------------------------------------------- */}
-      {/* VERTICAL LIST (Shown at 90%, 100%, Mobile, etc.)        */}
+      {/* MOBILE / TABLET / SMALL LAPTOP VERTICAL LIST          */}
       {/* ----------------------------------------------------- */}
-      <div className="block min-[1600px]:hidden w-full px-6 md:px-12 py-24 md:py-32">
-        
-        {/* Title (Sharp Left) */}
-        <motion.h2 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-4xl md:text-5xl lg:text-[4.5rem] text-[#F5F7F5] font-medium tracking-tight mb-20 md:mb-32 text-left w-full"
-        >
+      <div className="flex [@media(min-width:1024px)_and_(min-height:800px)]:hidden flex-col gap-12 px-6 py-24 w-full max-w-4xl mx-auto">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl text-[#E5EDDE] font-medium tracking-tight mb-8">
           Your smile starts here
-        </motion.h2>
-        
-        {/* Feature Items (Centered) */}
-        <div className="flex flex-col gap-20 md:gap-32 w-full max-w-5xl mx-auto">
-          {features.map((feature, i) => (
-            <motion.div 
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              className="flex flex-col items-center text-center gap-6 md:gap-8"
-            >
-              <h3 className="text-2xl md:text-[2.2rem] text-[#D4B58E] font-medium tracking-wide">
-                {i + 1}. {feature.title}
+        </h2>
+        {features.map((feature, idx) => (
+          <div key={idx} className="flex flex-col gap-4">
+            <div className="flex items-start sm:items-center gap-6">
+              <div className="w-12 h-12 shrink-0 rounded-full flex items-center justify-center text-[17px] bg-[#D4B58E] text-[#0D241C] font-semibold shadow-[0_0_15px_rgba(212,181,142,0.4)]">
+                {idx + 1}
+              </div>
+              <h3 className="text-2xl md:text-3xl text-[#D4B58E] font-medium tracking-wide mt-2 sm:mt-0">
+                {feature.title}
               </h3>
-              <p className="text-base md:text-[1.1rem] leading-[1.8] text-white/80 font-light max-w-[800px] mx-auto">
-                {feature.desc}
-              </p>
-            </motion.div>
-          ))}
-        </div>
+            </div>
+            <p className="text-base md:text-lg text-white/80 font-light leading-relaxed sm:pl-[72px]">
+              {feature.desc}
+            </p>
+          </div>
+        ))}
       </div>
 
       {/* ----------------------------------------------------- */}
-      {/* SCROLLYTELLING WHEEL (Shown ONLY at <= 80% zoom)        */}
+      {/* SCROLLYTELLING WHEEL (Large Desktop Only)              */}
       {/* ----------------------------------------------------- */}
-      <div className="hidden min-[1600px]:flex sticky top-0 w-full h-screen overflow-hidden flex-col items-center">
+      <div className="hidden [@media(min-width:1024px)_and_(min-height:800px)]:flex sticky top-0 w-full h-screen overflow-hidden flex-col items-center">
         
         {/* Title */}
-        <div className="absolute top-16 left-16 z-30 pointer-events-none">
+        <div className="absolute top-12 md:top-16 left-0 right-0 md:left-16 z-30 pointer-events-none px-4 text-center md:text-left">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-[4rem] text-[#F5F7F5] font-medium tracking-tight"
+            className="text-3xl sm:text-4xl lg:text-[4rem] leading-tight text-[#F5F7F5] font-medium tracking-tight break-words"
           >
             Your smile starts here
           </motion.h2>
         </div>
 
         {/* The Huge Wheel */}
-        <div className="absolute top-[280px] left-1/2 -translate-x-1/2">
+        <div className="absolute top-[200px] md:top-[280px] left-1/2 -translate-x-1/2 scale-[0.6] sm:scale-75 md:scale-90 lg:scale-100 origin-top">
           
           {/* Animated Anchor Line dropping from the arc peak to the text with a small gap from the dot */}
           <motion.div 
@@ -158,7 +146,7 @@ export function FeaturesSection() {
         </div>
 
         {/* Content (Static position inside the top of the wheel) */}
-        <div className="absolute top-[470px] w-full max-w-3xl px-6 text-center z-10 pointer-events-none">
+        <div className="absolute top-[320px] md:top-[470px] w-full max-w-[90%] md:max-w-3xl px-4 md:px-6 text-center z-10 pointer-events-none">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeIndex}
@@ -168,10 +156,10 @@ export function FeaturesSection() {
               transition={{ duration: 0.3, ease: "easeInOut" }}
               className="flex flex-col gap-5 items-center"
             >
-              <h3 className="text-[2.2rem] text-[#D4B58E] font-medium tracking-wide">
+              <h3 className="text-xl md:text-[2.2rem] leading-tight text-[#D4B58E] font-medium tracking-wide break-words">
                 {features[activeIndex].title}
               </h3>
-              <p className="text-[1.1rem] leading-[1.7] text-white/80 font-light max-w-[700px] text-center mx-auto">
+              <p className="text-sm md:text-[1.1rem] leading-relaxed md:leading-[1.7] text-white/80 font-light max-w-[700px] text-center mx-auto">
                 {features[activeIndex].desc}
               </p>
             </motion.div>

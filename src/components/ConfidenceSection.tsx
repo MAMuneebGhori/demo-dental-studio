@@ -57,7 +57,7 @@ export function ConfidenceSection() {
         initial={{ clipPath: "inset(0 100% 0 0)" }}
         animate={{ clipPath: "inset(0 0% 0 0)" }}
         transition={{ duration: 1.5, ease: "linear" }}
-        className="text-center md:text-left text-3xl md:text-5xl text-white font-bold tracking-widest uppercase pointer-events-none drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] whitespace-nowrap"
+        className="text-center md:text-left text-xl sm:text-2xl md:text-5xl text-white font-bold tracking-widest uppercase pointer-events-none drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] whitespace-normal break-words leading-[1.2]"
       >
         Welcome to modern dentistry
       </motion.h3>
@@ -67,7 +67,7 @@ export function ConfidenceSection() {
   return (
     <div className="w-full bg-[#E5EDDE] relative">
       <div className="w-full pt-32 pb-16 flex justify-center items-center px-4">
-        <h2 className="text-center text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-[#0D241C] max-w-5xl drop-shadow-sm">
+        <h2 className="text-center text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-[#0D241C] max-w-5xl drop-shadow-sm leading-[1.15] break-words">
           We help you to regain your confidence with smile
         </h2>
       </div>

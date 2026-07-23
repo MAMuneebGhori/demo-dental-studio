@@ -19,7 +19,7 @@ export function LocationSection() {
       id="contacts"
       className="bg-[#E5EDDE] py-24 md:py-32"
     >
-      <div className="max-w-[1400px] mx-auto px-8">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-8">
 
         {/* Heading */}
         <motion.h2
@@ -112,7 +112,7 @@ export function LocationSection() {
               </div>
 
               <a href="https://maps.google.com/?q=DEMO+Dental+Studio" target="_blank" rel="noopener noreferrer">
-                <button className="rounded-full px-8 py-3 bg-[#0D241C] text-[#E5EDDE] hover:bg-black hover:scale-105 transition-all font-light text-sm tracking-wide w-fit">
+                <button className="rounded-full px-8 py-3 min-h-[44px] bg-[#0D241C] text-[#E5EDDE] hover:bg-black active:scale-95 transition-all font-light text-sm tracking-wide w-fit">
                   Get Directions
                 </button>
               </a>
@@ -128,7 +128,7 @@ export function LocationSection() {
           viewport={{ once: true }}
           className="w-full"
         >
-          <div className="relative w-full aspect-[21/9] rounded-[2rem] overflow-hidden">
+          <div className="relative w-full aspect-[4/3] md:aspect-[21/9] rounded-[2rem] overflow-hidden">
             <img
               src="/clinic-exterior.png"
               alt="DEMO Dental Studio clinic exterior"

@@ -75,25 +75,27 @@ export function AboutSection() {
                     setCurrentIndex(idx);
                     setIsPaused(true);
                   }}
-                  className={`relative h-2 rounded-full overflow-hidden transition-all duration-300 ease-out shrink-0 ${
-                    idx === currentIndex 
-                      ? "w-8 bg-white/20" 
-                      : "w-2 bg-white/40 hover:bg-white/70"
-                  }`}
+                  className={`relative h-11 min-w-[32px] flex items-center justify-center group`}
                   aria-label={`Go to slide ${idx + 1}`}
                 >
-                  {idx === currentIndex && (
-                    <motion.div
-                      key={currentIndex + (isPaused ? "-paused" : "")}
-                      className="absolute left-0 top-0 bottom-0 bg-white"
-                      initial={{ width: isPaused ? "100%" : "0%" }}
-                      animate={{ width: "100%" }}
-                      transition={{ 
-                        duration: isPaused ? 0 : 3.5, 
-                        ease: "linear" 
-                      }}
-                    />
-                  )}
+                  <div className={`relative h-2 rounded-full overflow-hidden transition-all duration-300 ease-out shrink-0 ${
+                    idx === currentIndex 
+                      ? "w-8 bg-white/20" 
+                      : "w-2 bg-white/40 group-hover:bg-white/70"
+                  }`}>
+                    {idx === currentIndex && (
+                      <motion.div
+                        key={currentIndex + (isPaused ? "-paused" : "")}
+                        className="absolute left-0 top-0 bottom-0 bg-white"
+                        initial={{ width: isPaused ? "100%" : "0%" }}
+                        animate={{ width: "100%" }}
+                        transition={{ 
+                          duration: isPaused ? 0 : 3.5, 
+                          ease: "linear" 
+                        }}
+                      />
+                    )}
+                  </div>
                 </button>
               ))}
             </div>

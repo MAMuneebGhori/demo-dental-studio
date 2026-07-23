@@ -13,7 +13,7 @@ import { LocationSection } from "@/components/LocationSection";
 import { Footer } from "@/components/Footer";
 export default function Home() {
   return (
-    <main className="w-full">
+    <main className="w-full flex flex-col overflow-clip">
       <HeroSection />
       <ConfidenceSection />
       <AboutSection />

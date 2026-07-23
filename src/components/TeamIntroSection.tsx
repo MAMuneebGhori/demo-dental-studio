@@ -13,7 +13,7 @@ export function TeamIntroSection() {
   const lineScaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
-    <section ref={sectionRef} className="bg-[#E5EDDE] px-8 py-24 md:py-32">
+    <section ref={sectionRef} className="bg-[#E5EDDE] px-4 md:px-8 py-24 md:py-32 overflow-x-hidden">
       <div className="max-w-[1400px] mx-auto flex flex-col gap-16">
 
         {/* Heading */}
@@ -22,7 +22,7 @@ export function TeamIntroSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           viewport={{ once: true }}
-          className="text-4xl md:text-6xl text-[#0D241C] leading-tight tracking-tight font-light"
+          className="text-3xl sm:text-4xl md:text-6xl text-[#0D241C] leading-tight tracking-tight font-light break-words"
         >
           There&apos;s a team behind every smile
         </motion.h2>

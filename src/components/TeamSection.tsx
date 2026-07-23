@@ -9,9 +9,9 @@ export function TeamSection() {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
 
   return (
-    <section id="team" className="bg-[#0D241C] py-32">
+    <section id="team" className="bg-[#0D241C] py-16 md:py-32">
       {/* Header */}
-      <div className="max-w-[1400px] mx-auto px-8 mb-20 flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-8 mb-20 flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
           <p className="text-[#E5EDDE]/40 text-sm tracking-[0.3em] uppercase mb-4 font-light">The people behind every smile</p>
           <h2 className="text-6xl md:text-8xl font-light tracking-tight text-[#E5EDDE] leading-none">Our Team</h2>
@@ -24,7 +24,7 @@ export function TeamSection() {
       {/* Horizontal scroll cards */}
       <div
         ref={containerRef}
-        className="flex gap-6 px-8 overflow-x-auto scroll-smooth pb-8"
+        className="flex gap-6 px-4 md:px-8 overflow-x-auto scroll-smooth pb-8"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {teamData.map((member, i) => (
@@ -34,7 +34,7 @@ export function TeamSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: i * 0.12 }}
             viewport={{ once: true }}
-            className="flex-shrink-0 w-[320px] md:w-[380px]"
+            className="flex-shrink-0 w-[280px] md:w-[380px]"
             onMouseEnter={() => setHoveredId(member.id)}
             onMouseLeave={() => setHoveredId(null)}
           >
@@ -96,7 +96,7 @@ export function TeamSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
           viewport={{ once: true }}
-          className="flex-shrink-0 w-[320px] md:w-[380px]"
+          className="flex-shrink-0 w-[280px] md:w-[380px]"
         >
           <div className="relative w-full aspect-[3/4] rounded-[2rem] border border-[#E5EDDE]/10 flex flex-col items-center justify-center text-center p-10 hover:border-[#E5EDDE]/30 transition-colors cursor-pointer group">
             <div className="w-16 h-16 rounded-full border border-[#E5EDDE]/20 flex items-center justify-center mb-8 group-hover:bg-[#E5EDDE]/10 transition-colors">
@@ -109,7 +109,7 @@ export function TeamSection() {
               Are you a passionate dental professional? We are always looking for exceptional people.
             </p>
             <Link href="/careers">
-              <button className="mt-10 rounded-full px-8 py-3 border border-[#E5EDDE]/20 text-[#E5EDDE]/60 hover:bg-[#E5EDDE]/10 transition-colors font-light text-sm">
+              <button className="mt-10 rounded-full px-8 py-3 min-h-[44px] border border-[#E5EDDE]/20 text-[#E5EDDE]/60 hover:bg-[#E5EDDE]/10 active:bg-[#E5EDDE]/20 transition-colors font-light text-sm">
                 Learn More
               </button>
             </Link>

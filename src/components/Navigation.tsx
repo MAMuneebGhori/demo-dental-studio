@@ -9,6 +9,7 @@ export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [currentLang, setCurrentLang] = useState("en");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -35,8 +36,12 @@ export function Navigation() {
       setCurrentLang(match[1]);
     }
     
+    setMounted(true);
+    
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  if (!mounted) return null;
 
   if (pathname?.startsWith("/services/") || pathname?.startsWith("/team/") || pathname === "/appointment") {
     return null;
@@ -105,7 +110,7 @@ export function Navigation() {
               </button>
             ))}
           </div>
-          <Link href="/appointment" target="_blank" rel="noopener noreferrer" className="rounded-full px-8 py-3.5 bg-[#0a1e16] text-[#E5EDDE] text-sm font-semibold tracking-wide hover:bg-[#0f2e21] hover:shadow-lg transition-all duration-300 hover:scale-105 active:scale-95">
+          <Link href="/appointment" target="_blank" rel="noopener noreferrer" className="rounded-full px-8 py-3.5 min-h-[44px] bg-[#0a1e16] text-[#E5EDDE] text-sm font-semibold tracking-wide hover:bg-[#0f2e21] hover:shadow-lg transition-all duration-300 hover:scale-105 active:scale-95">
             Book appointment
           </Link>
         </div>
@@ -131,7 +136,7 @@ export function Navigation() {
                 key={link.name} 
                 href={link.href} 
                 onClick={() => setIsMobileMenuOpen(false)}
-                className={`text-lg font-medium ${
+                className={`text-lg font-medium min-h-[48px] flex items-center active:text-[#c9a973] transition-colors ${
                   activeSection === link.id ? "text-[#c9a973]" : "text-[#0D241C]"
                 }`}
               >
@@ -162,7 +167,7 @@ export function Navigation() {
             href="/appointment" 
             target="_blank" 
             onClick={() => setIsMobileMenuOpen(false)}
-            className="w-full text-center rounded-full px-6 py-4 bg-[#0a1e16] text-[#E5EDDE] text-sm font-semibold tracking-wide"
+            className="w-full text-center rounded-full px-6 py-4 min-h-[56px] flex items-center justify-center bg-[#0a1e16] text-[#E5EDDE] text-lg font-bold tracking-wide active:scale-95 transition-transform shadow-lg"
           >
             Book appointment
           </Link>

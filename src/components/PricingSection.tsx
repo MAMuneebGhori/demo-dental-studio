@@ -201,7 +201,7 @@ export function PricingSection() {
                   transition={{ delay: 0.3, duration: 0.4 }}
                   className="mt-12 pt-8 border-t border-[#0D241C]/10 flex flex-wrap gap-4"
                 >
-                  <Link href="/appointment">
+                  <Link href="/appointment" target="_blank" rel="noopener noreferrer">
                     <button className="rounded-full px-8 py-3 bg-[#0D241C] text-white hover:bg-black hover:scale-105 transition-all font-light text-sm tracking-wide">
                       Make an appointment
                     </button>

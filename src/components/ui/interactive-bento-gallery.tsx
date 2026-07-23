@@ -16,6 +16,7 @@ export interface MediaItemType {
     beforeUrl?: string;
     afterUrl?: string;
     longDescription?: string;
+    serviceId?: string;
 }
 // MediaItem component renders either a video or image based on item.type
 const MediaItem = ({ item, className, onClick }: { item: MediaItemType, className?: string, onClick?: () => void }) => {
@@ -209,11 +210,8 @@ const GalleryModal = ({ selectedItem, isOpen, onClose, setSelectedItem, mediaIte
                                                 <div key={idx} className="w-full mt-12 pt-8">
                                                     <div className="flex flex-row justify-between items-center gap-6 border-b border-[#E5EDDE]/10 pb-6">
                                                         <h4 className="font-semibold text-lg md:text-xl text-[#E5EDDE]">{lines[0].replace('Treatment methods: ', '')}</h4>
-                                                        <div className="flex items-center gap-3">
-                                                            <Link href="/#services" className="text-[13px] md:text-sm font-medium text-[#E5EDDE]/80 hover:text-white transition-colors border border-white/20 rounded-full px-4 py-2 whitespace-nowrap">
-                                                                Learn More
-                                                            </Link>
-                                                            <Link href="/appointment" className="text-[13px] md:text-sm font-medium text-[#0D241C] bg-[#c9a973] hover:bg-[#b09363] transition-colors rounded-full px-4 py-2 whitespace-nowrap shadow-lg">
+                                                        <div className="flex gap-4">
+                                                            <Link href={selectedItem.serviceId ? `/appointment?service=${selectedItem.serviceId}` : "/appointment"} target="_blank" rel="noopener noreferrer" className="text-[13px] md:text-sm font-medium text-[#0D241C] bg-[#c9a973] hover:bg-[#b09363] transition-colors rounded-full px-4 py-2 whitespace-nowrap shadow-lg">
                                                                 Book Now
                                                             </Link>
                                                         </div>
@@ -238,9 +236,9 @@ const GalleryModal = ({ selectedItem, isOpen, onClose, setSelectedItem, mediaIte
                             </div>
 
                             {/* Book Appointment Button */}
-                            <div className="flex justify-center w-full mb-16">
-                                <Link href="/appointment">
-                                    <button className="bg-[#E5EDDE] text-[#0D241C] px-8 py-3 md:px-10 md:py-4 rounded-full font-semibold text-sm md:text-base hover:bg-white hover:text-black transition-all shadow-xl hover:scale-105 active:scale-95 cursor-pointer">
+                            <div className="flex gap-4 mt-8 flex-col sm:flex-row">
+                                <Link href={selectedItem.serviceId ? `/appointment?service=${selectedItem.serviceId}` : "/appointment"} target="_blank" rel="noopener noreferrer">
+                                    <button className="w-full sm:w-auto px-8 py-3 rounded-full bg-[#0D241C] text-[#c9a973] font-semibold text-sm hover:bg-[#0a1e16] transition-colors shadow-lg shadow-[#0D241C]/20 border border-[#c9a973]/20 active:scale-95 cursor-pointer">
                                         Make an appointment
                                     </button>
                                 </Link>

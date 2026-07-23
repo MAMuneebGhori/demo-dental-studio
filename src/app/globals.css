@@ -32,3 +32,13 @@ html.hide-scrollbar {
   scrollbar-width: none;
 }
 
+/* Hide Google Translate UI */
+body {
+  top: 0 !important;
+}
+.skiptranslate {
+  display: none !important;
+}
+.VIpgJd-ZVi9od-ORHb-OEVmcd {
+  display: none !important;
+}

@@ -108,11 +108,11 @@ export function TeamSection() {
             <p className="text-[#E5EDDE]/40 font-light text-sm leading-relaxed">
               Are you a passionate dental professional? We are always looking for exceptional people.
             </p>
-            <a href="mailto:info@demodental.com">
+            <Link href="/careers">
               <button className="mt-10 rounded-full px-8 py-3 border border-[#E5EDDE]/20 text-[#E5EDDE]/60 hover:bg-[#E5EDDE]/10 transition-colors font-light text-sm">
                 Learn More
               </button>
-            </a>
+            </Link>
           </div>
         </motion.div>
       </div>

@@ -65,8 +65,8 @@ export function AntiGravityChatWidget() {
       
       setMessages(prev => [...prev, { role: "assistant", content: data.message }]);
     } catch (error: any) {
-      console.error("Chat error:", error);
-      setMessages(prev => [...prev, { role: "assistant", content: `Error: ${error.message}` }]);
+      console.error("[Chat] Request failed");
+      setMessages(prev => [...prev, { role: "assistant", content: "I'm sorry, I'm unable to respond right now. Please try again shortly." }]);
     } finally {
       setIsTyping(false);
     }

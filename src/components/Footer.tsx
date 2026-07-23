@@ -132,12 +132,12 @@ export function Footer() {
 
                 <div className="flex flex-col gap-4">
                   <h4 className="text-xs text-white/40 uppercase tracking-[0.25em]">Careers</h4>
-                  <a href="#" className="group inline-flex items-center gap-6 text-xl md:text-2xl font-light text-white hover:text-[#c9a973] transition-colors duration-500 w-fit">
+                  <Link href="/careers" className="group inline-flex items-center gap-6 text-xl md:text-2xl font-light text-white hover:text-[#c9a973] transition-colors duration-500 w-fit">
                     Current vacancies
                     <span className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-[#c9a973] group-hover:text-[#071a12] group-hover:border-[#c9a973] group-hover:scale-110 transition-all duration-500">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
                     </span>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </motion.div>

@@ -62,9 +62,9 @@ export default async function ServicePage(props: { params: Promise<{ slug: strin
           <h1 className="text-5xl md:text-7xl lg:text-9xl font-serif font-light tracking-tight mb-8">
             {service.name}
           </h1>
-          <div className="flex flex-wrap gap-6">
-            <Link 
-              href="/appointment"
+            <div className="flex flex-col sm:flex-row items-center gap-6">
+              <Link 
+                href={`/appointment?service=${service.id}`} target="_blank" rel="noopener noreferrer"
               className="rounded-full px-10 py-4 bg-[#c9a973] text-[#071a12] hover:bg-[#b09363] transition-colors font-medium tracking-wide text-lg flex items-center gap-3"
             >
               Book Consultation <ChevronRight size={20} />

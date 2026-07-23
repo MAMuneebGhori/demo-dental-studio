@@ -24,6 +24,7 @@ A temporary, fixed acrylic bridge was attached the same day, allowing the patien
 Treatment methods: All-on-X Implants
 About the service -> Make an appointment`,
     span: "md:col-span-2 md:row-span-2 sm:col-span-2 sm:row-span-2",
+    serviceId: "05", // ALL-ON-X
   },
   {
     id: 2,
@@ -45,6 +46,7 @@ To restore the tooth's structural integrity, a custom-shaded ceramic crown was f
 Treatment methods: Endodontics, Dental Crowns
 About the service -> Make an appointment`,
     span: "md:col-span-1 md:row-span-2 sm:col-span-1 sm:row-span-2",
+    serviceId: "09", // Therapeutic dentistry
   },
   {
     id: 3,
@@ -70,6 +72,7 @@ The patient acquired a new smile – one that is natural, harmonious and uniquel
 Treatment methods: Veneers
 About the service -> Make an appointment`,
     span: "md:col-span-1 md:row-span-1 sm:col-span-1 sm:row-span-1",
+    serviceId: "03", // Veneers
   },
   {
     id: 4,
@@ -91,6 +94,7 @@ Once approved, ultra-thin porcelain restorations were crafted and bonded. The fi
 Treatment methods: Digital Smile Design, Cosmetic Dentistry
 About the service -> Make an appointment`,
     span: "md:col-span-1 md:row-span-1 sm:col-span-1 sm:row-span-1",
+    serviceId: "03", // Veneers
   },
   {
     id: 5,
@@ -112,6 +116,7 @@ In just 60 minutes, the patient's teeth became several shades whiter. The result
 Treatment methods: Laser Teeth Whitening
 About the service -> Make an appointment`,
     span: "md:col-span-1 md:row-span-2 sm:col-span-1 sm:row-span-2",
+    serviceId: "02", // Professional hygiene
   },
   {
     id: 6,
@@ -133,6 +138,7 @@ After 14 months of treatment, the patient achieved a perfectly straight, wide, a
 Treatment methods: Invisalign, Orthodontics
 About the service -> Make an appointment`,
     span: "md:col-span-1 md:row-span-2 sm:col-span-1 sm:row-span-2",
+    serviceId: "01", // Complex diagnostics
   },
   {
     id: 7,
@@ -154,6 +160,7 @@ The patient's bite was fully restored to its natural physiological state. The ae
 Treatment methods: Full Mouth Rehabilitation
 About the service -> Make an appointment`,
     span: "md:col-span-1 md:row-span-2 sm:col-span-1 sm:row-span-2",
+    serviceId: "05", // ALL-ON-X
   },
   {
     id: 8,
@@ -175,6 +182,7 @@ In just one visit, the patient achieved a perfectly symmetrical and natural-look
 Treatment methods: Composite Bonding
 About the service -> Make an appointment`,
     span: "md:col-span-1 md:row-span-2 sm:col-span-1 sm:row-span-2",
+    serviceId: "09", // Therapeutic dentistry
   },
   {
     id: 9,
@@ -196,6 +204,7 @@ The new implant functions and feels exactly like a natural tooth, restoring full
 Treatment methods: Dental Implants
 About the service -> Make an appointment`,
     span: "md:col-span-2 md:row-span-2 sm:col-span-2 sm:row-span-2",
+    serviceId: "04", // Dental implants
   },
   {
     id: 10,
@@ -217,6 +226,7 @@ The laser contouring immediately provided a beautifully proportioned smile with 
 Treatment methods: Periodontics, Gum Contouring
 About the service -> Make an appointment`,
     span: "md:col-span-1 md:row-span-2 sm:col-span-1 sm:row-span-2",
+    serviceId: "08", // Periodontology
   },
   {
     id: 11,
@@ -238,6 +248,7 @@ The child's pain was immediately eliminated, and the space is now safely maintai
 Treatment methods: Pediatric Dentistry
 About the service -> Make an appointment`,
     span: "md:col-span-1 md:row-span-2 sm:col-span-2 sm:row-span-2",
+    serviceId: "10", // Pediatric dentistry
   }
 ];
 

@@ -119,9 +119,11 @@ export default async function TeamMemberPage(props: { params: Promise<{ slug: st
 
             {/* CTA */}
             <div className="pt-8">
-              <button className="rounded-full px-10 py-4 bg-[#E5EDDE] text-[#0D241C] hover:bg-white hover:scale-105 transition-all font-light tracking-tight text-lg">
-                Book a Consultation
-              </button>
+              <Link href={`/appointment?specialist=${member.id}`} target="_blank" rel="noopener noreferrer">
+                <button className="rounded-full px-10 py-4 bg-[#E5EDDE] text-[#0D241C] hover:bg-white hover:scale-105 transition-all font-light tracking-tight text-lg">
+                  Book a Consultation
+                </button>
+              </Link>
             </div>
           </div>
         </div>

@@ -1,316 +1,472 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, Sparkles, Check, ChevronRight, Calendar, User, Mail, Phone } from "lucide-react";
+import { Pen, ChevronLeft, ChevronRight, X, CheckCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { useActionState, useEffect } from "react";
+import { bookAppointmentAction } from "@/lib/appointment-actions";
+import { servicesData } from "@/data/services";
+import { teamData } from "@/data/team";
 
-export default function AppointmentPage() {
-  const [step, setStep] = useState(1);
+// Helper to generate days in a month
+const getDaysInMonth = (year: number, month: number) => {
+  const date = new Date(year, month, 1);
+  const days = [];
+  while (date.getMonth() === month) {
+    days.push(new Date(date));
+    date.setDate(date.getDate() + 1);
+  }
+  return days;
+};
+
+function AppointmentWizard() {
+  const searchParams = useSearchParams();
+  const initService = searchParams?.get("service");
+  const initSpecialist = searchParams?.get("specialist");
+
+  const [step, setStep] = useState(() => {
+    if (initService && initSpecialist) return 3;
+    if (initService) return 2;
+    return 1;
+  });
   
-  // Form State
-  const [bookingType, setBookingType] = useState<"patient" | "consultation" | null>(null);
-  const [selection, setSelection] = useState<string | null>(null);
-  const [isAiGenerating, setIsAiGenerating] = useState(false);
-  const [aiResultReady, setAiResultReady] = useState(false);
+  // Selections
+  const [selectedService, setSelectedService] = useState<string | null>(initService || null);
+  const [selectedSpecialist, setSelectedSpecialist] = useState<string | null>(initSpecialist || null);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
 
-  // Form inputs
-  const [formData, setFormData] = useState({ name: "", email: "", phone: "", date: "" });
+  // Form & Booking State
+  const [formData, setFormData] = useState({ name: "", surname: "", email: "", phone: "" });
+  
+  const [state, formAction, isPending] = useActionState(bookAppointmentAction, null);
 
-  const handleNextStep = () => {
-    if (step === 2) {
-      setStep(3);
-      setIsAiGenerating(true);
-      setTimeout(() => {
-        setIsAiGenerating(false);
-        setAiResultReady(true);
-      }, 3500); // Simulate AI generation time
-    } else {
-      setStep((s) => s + 1);
+  useEffect(() => {
+    if (state?.success) {
+      setStep(5);
     }
-  };
+  }, [state]);
 
-  const handlePrevStep = () => {
-    setStep((s) => Math.max(1, s - 1));
-    if (step === 3) {
-      setAiResultReady(false);
-      setIsAiGenerating(false);
-    }
-  };
+  const handleNextStep = () => setStep((s) => Math.min(5, s + 1));
 
-  const problems = [
-    { id: "pain", label: "Tooth Pain / Emergency", desc: "Immediate attention required" },
-    { id: "veneers", label: "Cosmetic Veneers", desc: "Smile redesign and aesthetics" },
-    { id: "implants", label: "Dental Implants", desc: "Permanent tooth replacement" },
-    { id: "ortho", label: "Dr. Smith - Orthodontics", desc: "Braces and Invisalign" },
-  ];
+  // Calendar logic for Oct 2026 (Mockup)
+  const currentYear = 2026;
+  const currentMonth = 9; // October (0-indexed)
+  const daysInMonth = getDaysInMonth(currentYear, currentMonth);
+  const startDayOfWeek = daysInMonth[0].getDay(); // 0 is Sunday, 1 is Monday
+  
+  // Adjust so Monday is first day of week
+  const emptyDaysStart = startDayOfWeek === 0 ? 6 : startDayOfWeek - 1; 
+
+  const timeSlots = ["08:00", "08:10", "08:30", "09:00", "09:15", "10:00", "11:30"];
+
+  const activeService = servicesData.find(s => s.id === selectedService);
+  const activeSpecialist = teamData.find(s => s.id.toString() === selectedSpecialist);
 
   return (
-    <main className="w-full min-h-screen bg-[#071a12] text-white pt-24 md:pt-32 pb-24 px-4 sm:px-8 relative overflow-hidden">
+    <main className="w-full min-h-screen bg-[#8ea496] text-[#0a1e16] font-sans selection:bg-[#0a1e16] selection:text-[#8ea496]">
       
-      {/* Background glowing orb */}
-      <div className="absolute top-[-20%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-[#c9a973]/5 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-emerald-600/5 blur-[120px] pointer-events-none" />
-
-      <div className="max-w-4xl mx-auto relative z-10">
-        
-        {/* Header & Progress */}
-        <div className="flex flex-col gap-8 mb-12 md:mb-16">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="text-white/50 hover:text-white transition-colors flex items-center gap-2 text-sm font-light uppercase tracking-widest">
-              <ChevronLeft size={16} /> Back to Home
-            </Link>
-            <div className="text-xs font-medium tracking-[0.2em] text-[#c9a973] uppercase">
-              Step {step} of 3
-            </div>
-          </div>
-          
-          <div className="flex flex-col gap-3">
-            <h1 className="text-4xl md:text-5xl font-serif font-light tracking-wide">
-              {step === 1 && "How can we help you?"}
-              {step === 2 && "What are you looking for?"}
-              {step === 3 && "Finalize your booking"}
-            </h1>
-            
-            {/* Progress Bar */}
-            <div className="w-full h-1 bg-white/10 rounded-full mt-4 overflow-hidden">
-              <motion.div 
-                className="h-full bg-[#c9a973]"
-                initial={{ width: "33%" }}
-                animate={{ width: `${(step / 3) * 100}%` }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-              />
-            </div>
-          </div>
+      {/* Top Navbar */}
+      <div className="w-full px-8 py-6 flex justify-between items-center">
+        <div className="flex items-center gap-2">
+          <div className="w-1.5 h-1.5 rounded-full bg-[#0a1e16]" />
+          <span className="font-medium">Book an appointment</span>
         </div>
+        <div className="flex items-center gap-6">
+          <span className="text-sm font-medium tracking-wide">EN ⌵</span>
+          <Link href="/">
+            <button className="w-10 h-10 rounded-full bg-[#0a1e16] text-[#8ea496] flex items-center justify-center hover:scale-105 transition-transform">
+              <X size={18} strokeWidth={2.5} />
+            </button>
+          </Link>
+        </div>
+      </div>
 
-        {/* Form Content Area */}
-        <div className="min-h-[400px]">
-          <AnimatePresence mode="wait">
+      <div className="max-w-4xl mx-auto px-4 md:px-8 pb-32 pt-8">
+        
+        <AnimatePresence mode="popLayout">
+          
+          {/* STEP 1: SERVICE */}
+          <motion.div key="step1" layout className="mb-12">
+            <h2 className="text-3xl font-medium mb-6">Service</h2>
             
-            {/* STEP 1: Type Selection */}
-            {step === 1 && (
-              <motion.div
-                key="step1"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.4 }}
-                className="grid grid-cols-1 md:grid-cols-2 gap-6"
+            {step > 1 && activeService ? (
+              // Collapsed state
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                className="w-full bg-[#0a1e16] text-[#8ea496] rounded-xl p-5 flex justify-between items-center cursor-pointer hover:bg-[#0a1e16]/90 transition-colors"
+                onClick={() => setStep(1)}
               >
-                <button
-                  onClick={() => { setBookingType("patient"); handleNextStep(); }}
-                  className={`group relative p-8 md:p-12 rounded-[2rem] border transition-all duration-500 text-left overflow-hidden ${
-                    bookingType === "patient" ? "border-[#c9a973] bg-[#c9a973]/10" : "border-white/10 bg-white/[0.02] hover:border-white/30 hover:bg-white/[0.05]"
-                  }`}
-                >
-                  <div className="relative z-10 flex flex-col gap-4">
-                    <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white/70 group-hover:text-[#c9a973] group-hover:border-[#c9a973]/50 transition-colors">
-                      <User size={20} />
+                <span className="text-lg font-medium">{activeService.name}</span>
+                <div className="w-8 h-8 rounded-full bg-[#8ea496] text-[#0a1e16] flex items-center justify-center">
+                  <Pen size={14} strokeWidth={2.5} />
+                </div>
+              </motion.div>
+            ) : (
+              // Active state
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                className="flex flex-col gap-4"
+              >
+                {servicesData.slice(0, 4).map((service) => (
+                  <div
+                    key={service.id}
+                    onClick={() => {
+                      setSelectedService(service.id);
+                      setTimeout(() => setStep(2), 300);
+                    }}
+                    className={`cursor-pointer p-6 rounded-xl border transition-all duration-300 ${
+                      selectedService === service.id 
+                        ? "border-[#0a1e16] bg-[#0a1e16]/5 shadow-sm" 
+                        : "border-[#0a1e16]/20 hover:border-[#0a1e16]/50"
+                    }`}
+                  >
+                    <div className="flex justify-between items-start mb-2 gap-4">
+                      <h3 className="text-xl font-medium">{service.name}</h3>
+                      <div className={`w-5 h-5 rounded-full border shrink-0 mt-1 flex items-center justify-center transition-colors ${
+                        selectedService === service.id ? "border-[#0a1e16]" : "border-[#0a1e16]/40"
+                      }`}>
+                         {selectedService === service.id && <div className="w-2.5 h-2.5 rounded-full bg-[#0a1e16]" />}
+                      </div>
                     </div>
-                    <h3 className="text-2xl font-light tracking-wide text-white">Booking for Patient</h3>
-                    <p className="text-sm text-white/50 font-light leading-relaxed">
-                      I am a new or existing patient looking to schedule a standard appointment or treatment.
+                    <p className="text-sm font-medium opacity-70 line-clamp-2 leading-relaxed max-w-2xl">
+                      {service.description.split('\n')[0]}
                     </p>
                   </div>
-                </button>
-
-                <button
-                  onClick={() => { 
-                    window.dispatchEvent(new CustomEvent('open-chat'));
-                  }}
-                  className={`group relative p-8 md:p-12 rounded-[2rem] border transition-all duration-500 text-left overflow-hidden ${
-                    bookingType === "consultation" ? "border-[#c9a973] bg-[#c9a973]/10" : "border-white/10 bg-white/[0.02] hover:border-white/30 hover:bg-white/[0.05]"
-                  }`}
-                >
-                  <div className="relative z-10 flex flex-col gap-4">
-                    <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white/70 group-hover:text-[#c9a973] group-hover:border-[#c9a973]/50 transition-colors">
-                      <Sparkles size={20} />
-                    </div>
-                    <h3 className="text-2xl font-light tracking-wide text-white">Virtual Consultation</h3>
-                    <p className="text-sm text-white/50 font-light leading-relaxed">
-                      I want a professional AI-assisted remote evaluation before coming into the clinic.
-                    </p>
-                  </div>
-                </button>
+                ))}
               </motion.div>
             )}
+          </motion.div>
 
-            {/* STEP 2: Service/Problem Selection */}
-            {step === 2 && (
-              <motion.div
-                key="step2"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.4 }}
-                className="flex flex-col gap-10"
-              >
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {problems.map((prob) => (
+          {/* STEP 2: SPECIALIST */}
+          {step >= 2 && (
+            <motion.div key="step2" layout initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
+              <h2 className="text-3xl font-medium mb-6">Specialist</h2>
+              
+              {step > 2 && activeSpecialist ? (
+                // Collapsed state
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                  className="w-full bg-[#0a1e16] text-[#8ea496] rounded-xl p-5 flex justify-between items-center cursor-pointer hover:bg-[#0a1e16]/90 transition-colors"
+                  onClick={() => setStep(2)}
+                >
+                  <span className="text-lg font-medium">{activeSpecialist.name.replace('Dr. ', '')}</span>
+                  <div className="w-8 h-8 rounded-full bg-[#8ea496] text-[#0a1e16] flex items-center justify-center">
+                    <Pen size={14} strokeWidth={2.5} />
+                  </div>
+                </motion.div>
+              ) : (
+                // Active state
+                <motion.div className="flex flex-col gap-4">
+                  {teamData.map((doc) => (
                     <div
-                      key={prob.id}
+                      key={doc.id}
                       onClick={() => {
-                        setSelection(prob.id);
-                        setTimeout(() => handleNextStep(), 300);
+                        setSelectedSpecialist(doc.id.toString());
+                        setTimeout(() => setStep(3), 300);
                       }}
-                      className={`cursor-pointer flex items-center gap-4 p-6 rounded-2xl border transition-all duration-300 ${
-                        selection === prob.id 
-                          ? "border-[#c9a973] bg-[#c9a973]/10 shadow-[0_0_20px_rgba(201,169,115,0.1)]" 
-                          : "border-white/10 bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/20"
+                      className={`cursor-pointer p-5 rounded-xl border flex justify-between items-center transition-all duration-300 ${
+                        selectedSpecialist === doc.id.toString() 
+                          ? "border-[#0a1e16] bg-[#0a1e16]/5 shadow-sm" 
+                          : "border-[#0a1e16]/20 hover:border-[#0a1e16]/50"
                       }`}
                     >
-                      <div className={`w-6 h-6 rounded-full border flex items-center justify-center transition-colors ${
-                        selection === prob.id ? "border-[#c9a973] bg-[#c9a973]" : "border-white/30"
+                      <h3 className="text-lg font-medium">{doc.name.replace('Dr. ', '')}</h3>
+                      <div className={`w-5 h-5 rounded-full border shrink-0 flex items-center justify-center transition-colors ${
+                        selectedSpecialist === doc.id.toString() ? "border-[#0a1e16]" : "border-[#0a1e16]/40"
                       }`}>
-                        {selection === prob.id && <Check size={14} className="text-[#071a12]" strokeWidth={3} />}
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        <span className="text-lg text-white/90 font-light">{prob.label}</span>
-                        <span className="text-xs text-white/40">{prob.desc}</span>
+                         {selectedSpecialist === doc.id.toString() && <div className="w-2.5 h-2.5 rounded-full bg-[#0a1e16]" />}
                       </div>
                     </div>
                   ))}
-                </div>
+                </motion.div>
+              )}
+            </motion.div>
+          )}
 
-                <div className="flex justify-between items-center pt-8 border-t border-white/10">
-                  <button onClick={handlePrevStep} className="text-white/50 hover:text-white transition-colors text-sm uppercase tracking-widest">
-                    Go Back
-                  </button>
-                  <button 
-                    onClick={handleNextStep}
-                    disabled={!selection}
-                    className="flex items-center gap-2 bg-[#c9a973] hover:bg-[#b09363] text-[#071a12] disabled:opacity-30 disabled:hover:bg-[#c9a973] px-8 py-3 rounded-full font-medium tracking-wide transition-all"
-                  >
-                    Continue <ChevronRight size={18} />
-                  </button>
-                </div>
-              </motion.div>
-            )}
+          {/* STEP 3: DATE AND TIME */}
+          {step >= 3 && (
+            <motion.div key="step3" layout initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
+              <h2 className="text-3xl font-medium mb-6">Date and time</h2>
+              
+              {step > 3 && selectedDate && selectedTime ? (
+                 // Collapsed state
+                 <motion.div 
+                  initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                  className="w-full bg-[#0a1e16] text-[#8ea496] rounded-xl p-5 flex justify-between items-center cursor-pointer hover:bg-[#0a1e16]/90 transition-colors"
+                  onClick={() => setStep(3)}
+                >
+                  <span className="text-lg font-medium">
+                    {selectedDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })} at {selectedTime}
+                  </span>
+                  <div className="w-8 h-8 rounded-full bg-[#8ea496] text-[#0a1e16] flex items-center justify-center">
+                    <Pen size={14} strokeWidth={2.5} />
+                  </div>
+                </motion.div>
+              ) : (
+                <div className="flex flex-col gap-12">
+                  <div className="max-w-md bg-[#9ab5a3] p-6 rounded-2xl border border-[#0a1e16]/10 shadow-sm">
+                    {/* Calendar Header */}
+                    <div className="flex justify-between items-center mb-6">
+                      <button className="w-8 h-8 rounded-full bg-[#0a1e16] text-[#8ea496] flex items-center justify-center hover:opacity-80">
+                        <ChevronLeft size={16} strokeWidth={3} />
+                      </button>
+                      <h3 className="font-semibold text-lg">October 2026</h3>
+                      <button className="w-8 h-8 rounded-full bg-[#0a1e16] text-[#8ea496] flex items-center justify-center hover:opacity-80">
+                        <ChevronRight size={16} strokeWidth={3} />
+                      </button>
+                    </div>
 
-            {/* STEP 3: AI Generation & Final Details */}
-            {step === 3 && (
-              <motion.div
-                key="step3"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.4 }}
-                className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16"
-              >
+                    {/* Days of Week */}
+                    <div className="grid grid-cols-7 gap-2 mb-4 border-b border-[#0a1e16]/20 pb-4">
+                      {["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].map(d => (
+                        <div key={d} className="text-center font-semibold text-sm">{d}</div>
+                      ))}
+                    </div>
+
+                    {/* Calendar Grid */}
+                    <div className="grid grid-cols-7 gap-y-4 gap-x-2">
+                      {Array.from({ length: emptyDaysStart }).map((_, i) => (
+                        <div key={`empty-${i}`} />
+                      ))}
+                      {daysInMonth.map((day) => {
+                        const isSelected = selectedDate?.getDate() === day.getDate();
+                        const isPast = day.getDate() > 31; // Mock all clickable for now
+                        return (
+                          <div key={day.toString()} className="flex justify-center">
+                            <button
+                              onClick={() => setSelectedDate(day)}
+                              className={`w-10 h-10 flex items-center justify-center rounded-lg text-sm font-medium transition-all ${
+                                isSelected 
+                                  ? "bg-[#0a1e16] text-[#8ea496] shadow-md" 
+                                  : "hover:bg-[#0a1e16]/10 text-[#0a1e16]/70"
+                              }`}
+                            >
+                              {day.getDate()}
+                            </button>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Time Slots */}
+                  <div className="flex flex-col gap-6">
+                    <div className="border-b-2 border-[#0a1e16] w-fit pb-1">
+                      <span className="font-medium text-sm">Morning</span>
+                    </div>
+                    <div className="flex flex-wrap gap-3">
+                      {timeSlots.map(time => (
+                        <button
+                          key={time}
+                          onClick={() => setSelectedTime(time)}
+                          className={`px-8 py-3 rounded-xl text-sm font-semibold transition-all border ${
+                            selectedTime === time 
+                              ? "bg-[#0a1e16] text-[#8ea496] border-[#0a1e16]" 
+                              : "border-[#0a1e16]/20 text-[#0a1e16] hover:border-[#0a1e16]/50"
+                          }`}
+                        >
+                          {time}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex justify-center mt-6">
+                    <button 
+                      onClick={() => setStep(4)}
+                      disabled={!selectedDate || !selectedTime}
+                      className="px-8 py-4 bg-[#0a1e16] text-[#8ea496] rounded-full text-sm font-semibold tracking-wide hover:opacity-90 disabled:opacity-30 disabled:hover:opacity-30 transition-all"
+                    >
+                      Continue with appointment details
+                    </button>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          )}
+
+          {/* STEP 4: DETAILS */}
+          {step === 4 && (
+            <motion.div key="step4" layout initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
                 
-                {/* Left Col: AI UI */}
-                <div className="w-full flex flex-col gap-6">
-                  <h3 className="text-sm text-white/50 uppercase tracking-[0.2em] flex items-center gap-2">
-                    <Sparkles size={16} className="text-[#c9a973]" /> DEMO AI Diagnostics
-                  </h3>
-                  
-                  <div className="w-full aspect-[4/3] rounded-3xl border border-white/10 bg-black/40 overflow-hidden relative flex flex-col items-center justify-center">
-                    
-                    {/* Scanning State */}
-                    {isAiGenerating && (
-                      <motion.div 
-                        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                        className="absolute inset-0 flex flex-col items-center justify-center gap-6"
-                      >
-                        {/* Scanning Line Animation */}
-                        <motion.div 
-                          animate={{ top: ["0%", "100%", "0%"] }}
-                          transition={{ duration: 2, ease: "linear", repeat: Infinity }}
-                          className="absolute left-0 right-0 h-[2px] bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.8)] z-20"
-                        />
-                        {/* Fake 3D Skeleton structure */}
-                        <div className="w-48 h-48 opacity-30 border border-emerald-500/50 rounded-full flex items-center justify-center relative">
-                           <div className="w-32 h-32 border border-emerald-500/30 rounded-full animate-ping" />
-                           <div className="w-16 h-16 border border-emerald-500/80 rounded-full animate-pulse" />
-                        </div>
-                        <p className="text-emerald-400 font-mono text-xs tracking-widest uppercase relative z-10 bg-[#071a12]/80 px-4 py-1 rounded">
-                          Analyzing {selection}...
-                        </p>
-                      </motion.div>
-                    )}
+                {/* Form */}
+                <form action={formAction} className="flex flex-col gap-8">
+                  {/* Hidden inputs to pass state */}
+                  <input type="hidden" name="serviceId" value={activeService?.id || ""} />
+                  <input type="hidden" name="date" value={selectedDate?.toISOString() || ""} />
+                  <input type="hidden" name="time" value={selectedTime || ""} />
 
-                    {/* Result State */}
-                    {aiResultReady && (
-                      <motion.div 
-                        initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
-                        className="absolute inset-0 bg-gradient-to-br from-emerald-900/40 to-[#071a12] p-8 flex flex-col justify-between"
-                      >
-                        <div className="flex justify-between items-start">
-                           <div className="flex gap-2">
-                             <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                             <span className="text-xs text-emerald-500 uppercase tracking-widest font-mono">Profile Matched</span>
-                           </div>
-                           <div className="text-xs text-white/30 font-mono">DEMO_MODEL_V4</div>
-                        </div>
-                        
-                        <div className="flex flex-col gap-2 items-center text-center">
-                           <div className="w-16 h-16 rounded-full bg-[#c9a973]/20 flex items-center justify-center mb-4 text-[#c9a973]">
-                             <Check size={32} />
-                           </div>
-                           <h4 className="text-xl text-white font-light">Treatment Plan Formulated</h4>
-                           <p className="text-sm text-white/50">Our specialists will be ready with your personalized {selection} consultation.</p>
-                        </div>
-                      </motion.div>
-                    )}
+                  <h2 className="text-4xl font-medium mb-4 leading-tight">Appointment<br/>details</h2>
+                  
+                  <div className="flex flex-col gap-6">
+                    <div className="flex flex-col gap-2">
+                      <label className="text-xs font-semibold">Name</label>
+                      <input name="name" type="text" required minLength={2} maxLength={50} value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="w-full bg-transparent border border-[#0a1e16]/30 rounded-lg px-4 py-3 focus:outline-none focus:border-[#0a1e16] transition-colors" placeholder="Lliene" />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <label className="text-xs font-semibold">Surname</label>
+                      <input name="surname" type="text" required minLength={2} maxLength={50} value={formData.surname} onChange={e => setFormData({...formData, surname: e.target.value})} className="w-full bg-transparent border border-[#0a1e16]/30 rounded-lg px-4 py-3 focus:outline-none focus:border-[#0a1e16] transition-colors" placeholder="Ozola" />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <label className="text-xs font-semibold">Email</label>
+                      <input name="email" type="email" required maxLength={255} value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="w-full bg-transparent border border-[#0a1e16]/30 rounded-lg px-4 py-3 focus:outline-none focus:border-[#0a1e16] transition-colors" placeholder="yourname@example.com" />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <label className="text-xs font-semibold">Phone</label>
+                      <input name="phone" type="tel" required minLength={5} maxLength={20} value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} className="w-full bg-transparent border border-[#0a1e16]/30 rounded-lg px-4 py-3 focus:outline-none focus:border-[#0a1e16] transition-colors" placeholder="+371 23456789" />
+                    </div>
+                  </div>
+
+                  {state?.error && (
+                    <div className="bg-red-500/10 text-red-500 p-4 rounded-lg text-sm font-medium">
+                      {state.error}
+                    </div>
+                  )}
+
+                  <div className="flex flex-col gap-4 mt-2">
+                    <label className="flex items-start gap-3 cursor-pointer group">
+                      <input name="policyAccepted" type="checkbox" required className="mt-1 border-[#0a1e16]/30 rounded text-[#0a1e16] focus:ring-[#0a1e16] bg-transparent cursor-pointer" />
+                      <span className="text-xs font-medium opacity-80 leading-snug group-hover:opacity-100 transition-opacity">
+                        I confirm that I have read and agree to the <Link href="/privacy-policy" target="_blank" className="underline hover:text-white transition-colors">privacy policy</Link>.
+                      </span>
+                    </label>
+                    <label className="flex items-start gap-3 cursor-pointer group">
+                      <input name="termsAccepted" type="checkbox" required className="mt-1 border-[#0a1e16]/30 rounded text-[#0a1e16] focus:ring-[#0a1e16] bg-transparent cursor-pointer" />
+                      <span className="text-xs font-medium opacity-80 leading-snug group-hover:opacity-100 transition-opacity">
+                        I confirm that I have read and agree to the <Link href="/terms-of-service" target="_blank" className="underline hover:text-white transition-colors">terms of the service agreement</Link>.
+                      </span>
+                    </label>
+                  </div>
+
+                  <div className="flex justify-between items-center mt-8">
+                    <button type="button" onClick={() => setStep(3)} className="flex items-center gap-2 text-sm font-semibold hover:opacity-70 transition-opacity">
+                      <ChevronLeft size={16} /> Back
+                    </button>
+                    <button 
+                      type="submit"
+                      disabled={isPending}
+                      className="px-8 py-4 bg-[#0a1e16] text-[#8ea496] rounded-full text-sm font-semibold tracking-wide hover:opacity-90 transition-all flex items-center gap-2 disabled:opacity-70"
+                    >
+                      {isPending ? (
+                        <><Loader2 size={16} className="animate-spin" /> Booking...</>
+                      ) : (
+                        "Book an appointment"
+                      )}
+                    </button>
+                  </div>
+                </form>
+
+                {/* Summary Card */}
+                <div>
+                  <div className="w-full border border-[#0a1e16]/20 rounded-2xl p-8 sticky top-8 bg-[#8ea496]/50">
+                    <h3 className="text-2xl font-medium mb-6">Appointment<br/>information</h3>
+                    
+                    <button onClick={() => setStep(1)} className="flex items-center gap-2 text-sm font-semibold mb-10 hover:opacity-70 transition-opacity">
+                      <div className="w-6 h-6 rounded-full bg-[#0a1e16] text-[#8ea496] flex items-center justify-center">
+                        <Pen size={12} strokeWidth={2.5} />
+                      </div>
+                      Edit
+                    </button>
+
+                    <div className="flex flex-col gap-8">
+                      <div>
+                        <p className="text-xs font-medium mb-2 opacity-80">Service</p>
+                        <p className="text-base font-semibold leading-snug max-w-sm">
+                          {activeService?.name || "Professional hygiene with EMS prophylaxis master"}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-medium mb-1 opacity-80">Date</p>
+                        <p className="text-base font-semibold">
+                          {selectedDate ? selectedDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : "1 October 2026"}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-medium mb-1 opacity-80">Time</p>
+                        <p className="text-base font-semibold">{selectedTime || "08:10"}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-medium mb-1 opacity-80">Address</p>
+                        <p className="text-base font-semibold">Ausekļa iela 14, Rīga</p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-medium mb-1 opacity-80">Amount</p>
+                        <p className="text-base font-semibold">110,00 €</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                {/* Right Col: Form */}
-                <div className="flex flex-col gap-8 justify-center">
-                   
-                   <div className="flex flex-col gap-6">
-                      {/* Premium Floating Label Inputs */}
-                      <div className="relative group">
-                        <input type="text" id="name" required className="w-full bg-transparent border-b border-white/20 py-4 text-white text-lg focus:outline-none focus:border-[#c9a973] transition-colors peer placeholder-transparent" placeholder="Full Name" />
-                        <label htmlFor="name" className="absolute left-0 top-4 text-white/40 text-lg transition-all peer-focus:-top-3 peer-focus:text-xs peer-focus:text-[#c9a973] peer-valid:-top-3 peer-valid:text-xs peer-valid:text-white/60 cursor-text">
-                          Full Name
-                        </label>
-                      </div>
+              </div>
+            </motion.div>
+          )}
 
-                      <div className="relative group">
-                        <input type="email" id="email" required className="w-full bg-transparent border-b border-white/20 py-4 text-white text-lg focus:outline-none focus:border-[#c9a973] transition-colors peer placeholder-transparent" placeholder="Email Address" />
-                        <label htmlFor="email" className="absolute left-0 top-4 text-white/40 text-lg transition-all peer-focus:-top-3 peer-focus:text-xs peer-focus:text-[#c9a973] peer-valid:-top-3 peer-valid:text-xs peer-valid:text-white/60 cursor-text">
-                          Email Address
-                        </label>
-                      </div>
+          {/* STEP 5: SUCCESS */}
+          {step === 5 && (
+            <motion.div 
+              key="step5" 
+              layout 
+              initial={{ opacity: 0, scale: 0.95 }} 
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, type: "spring" }}
+            >
+              <div className="flex flex-col items-center justify-center py-20 text-center">
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.2, type: "spring", stiffness: 200, damping: 20 }}
+                  className="w-24 h-24 bg-[#0a1e16] rounded-full flex items-center justify-center text-[#8ea496] mb-8 shadow-2xl"
+                >
+                  <CheckCircle size={48} />
+                </motion.div>
+                
+                <motion.h2 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="text-5xl font-serif mb-4"
+                >
+                  Booking Confirmed!
+                </motion.h2>
+                
+                <motion.p 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="text-lg opacity-80 max-w-md mx-auto mb-12"
+                >
+                  Thank you, {formData.name || "there"}! Your appointment for {activeService?.name || "your treatment"} has been successfully booked for {selectedDate ? selectedDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : "your selected date"} at {selectedTime || "your selected time"}. We've sent a confirmation email to {formData.email || "your email"}.
+                </motion.p>
+                
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  <Link href="/">
+                    <button className="px-10 py-4 bg-[#0a1e16] text-[#8ea496] rounded-full text-sm font-semibold tracking-wide hover:opacity-90 transition-all hover:scale-105 active:scale-95">
+                      Return to Homepage
+                    </button>
+                  </Link>
+                </motion.div>
+              </div>
+            </motion.div>
+          )}
 
-                      <div className="relative group">
-                        <input type="tel" id="phone" required className="w-full bg-transparent border-b border-white/20 py-4 text-white text-lg focus:outline-none focus:border-[#c9a973] transition-colors peer placeholder-transparent" placeholder="Phone Number" />
-                        <label htmlFor="phone" className="absolute left-0 top-4 text-white/40 text-lg transition-all peer-focus:-top-3 peer-focus:text-xs peer-focus:text-[#c9a973] peer-valid:-top-3 peer-valid:text-xs peer-valid:text-white/60 cursor-text">
-                          Phone Number
-                        </label>
-                      </div>
-                      
-                      <div className="relative group mt-2">
-                         <div className="flex items-center border-b border-white/20 py-4 text-white/40 text-lg hover:border-[#c9a973] transition-colors cursor-pointer">
-                           <Calendar size={20} className="mr-3 text-[#c9a973]" />
-                           <span>Select Date & Time</span>
-                         </div>
-                      </div>
-                   </div>
-
-                   <div className="flex flex-col sm:flex-row justify-between items-center gap-6 mt-4">
-                     <button onClick={handlePrevStep} className="text-white/50 hover:text-white transition-colors text-sm uppercase tracking-widest order-2 sm:order-1">
-                        Go Back
-                     </button>
-                     
-                     <button 
-                       disabled={isAiGenerating}
-                       className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white px-10 py-4 rounded-full font-medium tracking-wide transition-all shadow-[0_0_20px_rgba(5,150,105,0.3)] hover:shadow-[0_0_30px_rgba(5,150,105,0.5)] order-1 sm:order-2"
-                     >
-                       Confirm Booking
-                     </button>
-                   </div>
-                </div>
-
-              </motion.div>
-            )}
-
-          </AnimatePresence>
-        </div>
+        </AnimatePresence>
       </div>
     </main>
+  );
+}
+
+export default function AppointmentPage() {
+  return (
+    <Suspense fallback={<div className="w-full min-h-screen bg-[#8ea496]" />}>
+      <AppointmentWizard />
+    </Suspense>
   );
 }

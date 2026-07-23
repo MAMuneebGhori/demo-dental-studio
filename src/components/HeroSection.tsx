@@ -57,7 +57,7 @@ export function HeroSection() {
           transition={{ delay: 0.8, duration: 0.8 }}
           className="mt-8"
         >
-          <Link href="/appointment">
+          <Link href="/appointment" target="_blank" rel="noopener noreferrer">
             <button className="rounded-full px-10 py-4 bg-[#0D241C] text-white text-lg font-bold tracking-wide hover:opacity-90 transition-colors shadow-lg">
               Book appointment
             </button>

@@ -150,7 +150,7 @@ export function StickyScrollReveal() {
             <p className="text-lg md:text-xl opacity-80 mb-16 leading-relaxed font-light">
               We create a 3D digital smile design before treatment even starts. Not only do you know what the end result will be, but you can see it, influence it, and feel confident.
             </p>
-            <Link href="/appointment">
+            <Link href="/appointment" target="_blank" rel="noopener noreferrer">
               <button className="px-8 py-4 bg-[#0D241C] text-[#e4f3e3] rounded-full font-medium hover:bg-emerald-900 transition-colors text-lg shadow-xl">
                 Make an appointment
               </button>
